@@ -5,49 +5,37 @@
     android:background="#0099cc"
     tools:context="com.teamkarbon.android.binaryextras.Quiz" >
 
-    <!--
-         The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
-    -->
-
-    <!--
-         This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
-    -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/Input1"
+        <TextView 
+            android:id="@+id/Instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" >
-
-            <requestFocus />
-        </EditText>
+            android:layout_weight="0.64"
+            android:text="TextView" />
 
         <EditText
-            android:id="@+id/Input2"
+            android:id="@+id/Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.32"
             android:ems="10" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/THEbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.23"
             android:text="Button" />
 
-        <Button
-            android:id="@+id/button1"
+        <android.support.v7.widget.Space
+            android:id="@+id/pointlesswasteofspace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
-
+            android:layout_weight="0.51" />
     </LinearLayout>
 
 </FrameLayout>
