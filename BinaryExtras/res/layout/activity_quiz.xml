@@ -7,10 +7,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="345dp"
         android:orientation="vertical" >
 
-        <TextView 
+        <TextView
             android:id="@+id/Instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,14 +28,8 @@
             android:id="@+id/THEbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.23"
+            android:layout_weight="0.45"
             android:text="Button" />
-
-        <android.support.v7.widget.Space
-            android:id="@+id/pointlesswasteofspace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.51" />
     </LinearLayout>
 
 </FrameLayout>
