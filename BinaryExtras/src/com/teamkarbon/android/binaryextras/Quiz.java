@@ -1,5 +1,7 @@
 package com.teamkarbon.android.binaryextras;
 
+import java.util.ArrayList;
+
 import com.teamkarbon.android.binaryextras.util.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -21,12 +23,16 @@ import android.widget.TextView;
  */
 public class Quiz extends Activity {
 	
-	public int givenValue;
+	public int givenValue;//In decimal, of course
 	public String instructions;
 	
 	public TextView instructionView;
 	public Button enterButton;
 	public EditText input;
+	
+	public boolean HazTehGaemStahrtad;
+	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
+											  //Binary to decimal.
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +42,24 @@ public class Quiz extends Activity {
 		instructionView = (TextView) findViewById(R.id.Instructions);
 		enterButton = (Button) findViewById(R.id.THEbutton);
 		input = (EditText) findViewById(R.id.Input);
+		HazTehGaemStahrtad = false;
 		
 		//On startup,
 		instructionView.setText("Press Button to start!");
+		
+		//Set event
+		enterButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(HazTehGaemStahrtad)
+                {
+                	
+                }
+                else
+                {
+                	HazTehGaemStahrtad = true;
+                }
+            }
+        });
 	}
 
 	@Override
@@ -59,4 +80,70 @@ public class Quiz extends Activity {
 			return false;
 		}
 	};
+	public String ToBinary(float decimalvalue, int startingPowerOfTwo)//I shall make my own for the fun of it.
+	{
+		int maxpoweroftwo = startingPowerOfTwo;//Gg. GG. (This var is a temporary store, btw)
+		float decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
+		int NumberOfDecimalPoints = 0;
+		ArrayList ListOfBinaryDigits = new ArrayList();
+		
+		//startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
+		//to start checking from 1. This value is usually zero or less... (2^0 = 1)
+		
+		/*
+		 * How to convert:
+		 * Step 0: Make sure that decimalvalue != 0. Seriously.
+		 * Step 1: Find the largest possible power of two without exceeding the decimalvalue
+		 * Step 2: Subtract the decimalvalue by the largest possible power of two
+		 * Step 3a: Repeat steps 1 and 2 until decimalvalue is 0.
+		 * Step 3b: Check for recurring dinals (binary decimals) by
+		 * Step 3bi: Loading one binary digit into an array as a set for the previous 9 sets
+		 * Step 3bii: Check if all 9 digits in the sets are the same
+		 * Step 3biii: If not, repeat 3bi and 3bii where
+		 * 						binary digits in the set = x; number of sets = y;
+		 *                      2 <= x <= 9 and 7 < xy < 13
+		 * Step 3c: If there are recurring decimals, pointlessly repeat them to at least 80dp.
+		 */
+
+		//And now.... the code.
+		
+		//Step 0
+		if(decimalvalue == 0) return "0";
+		
+		//Step 3a
+		while(decimalvalueleft > 0 && NumberOfDecimalPoints < 90)
+		{
+			//Step 1
+			for(int poweroftwo = startingPowerOfTwo; ; poweroftwo++)
+			{
+				if( (2 ^ poweroftwo) > decimalvalueleft)
+				{
+					maxpoweroftwo = poweroftwo - 1;
+					break;
+				}
+			}
+			//Step 2
+			decimalvalueleft -= 2 ^ maxpoweroftwo;
+			
+			//Add the digit
+			ListOfBinaryDigits.add(new BinaryDigit(maxpoweroftwo, 1));
+			if(maxpoweroftwo < 0)
+				NumberOfDecimalPoints++;
+			
+			//TODO: Put Step 3b here...
+		}
+		
+		return null;
+	}
+	public class BinaryDigit
+	{
+		public int powerOfTwo;//Where is the digit located?
+		public int Value;//One or Zero
+		
+		public BinaryDigit(int powerOfTwo, int BinaryValue)
+		{
+			this.powerOfTwo = powerOfTwo;
+			this.Value = BinaryValue;
+		}
+	}
 }
