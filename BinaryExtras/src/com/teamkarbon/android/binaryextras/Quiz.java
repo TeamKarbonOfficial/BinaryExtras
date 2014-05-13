@@ -85,7 +85,8 @@ public class Quiz extends Activity {
 		int maxpoweroftwo = startingPowerOfTwo;//Gg. GG. (This var is a temporary store, btw)
 		float decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
 		int NumberOfDecimalPoints = 0;
-		ArrayList ListOfBinaryDigits = new ArrayList();
+		ArrayList <BinaryDigit> ListOfBinaryDigits = new ArrayList<BinaryDigit>();
+		String temporaryBinaryAsString = "";
 		
 		//startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
 		//to start checking from 1. This value is usually zero or less... (2^0 = 1)
@@ -130,7 +131,20 @@ public class Quiz extends Activity {
 			if(maxpoweroftwo < 0)
 				NumberOfDecimalPoints++;
 			
+			//Make it into a string as zero's are not inside the arraylist
+			for(BinaryDigit bd : ListOfBinaryDigits)
+			{
+				if(bd.powerOfTwo >= 0)
+				{
+					//Add it to the string respectively.
+					//TODO BUT I DON'T KNOW HOW XP
+				}
+			}
 			//TODO: Put Step 3b here...
+			for(int NoOfDigitsInSet = 1; NoOfDigitsInSet <= 10; NoOfDigitsInSet ++)
+			{
+				
+			}
 		}
 		
 		return null;
