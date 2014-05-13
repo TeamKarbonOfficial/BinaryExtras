@@ -160,9 +160,9 @@ public class Quiz extends Activity {
 			if(bd.Value == 1)//Which should be always true...
 			{
 				if(!MantissaMode)
-					Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo, "1");
+					Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo, 1);
 				else //Cuz the decimal point takes up one index
-					Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo + 1, "1");
+					Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo + 1, 1);
 			}
 		}
 		//Init indexOfZeroPower
