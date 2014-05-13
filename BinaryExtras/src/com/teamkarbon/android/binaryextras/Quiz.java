@@ -81,6 +81,8 @@ public class Quiz extends Activity {
 			return false;
 		}
 	};
+	
+	
 	public String ToBinary(float decimalvalue, int startingPowerOfTwo)//I shall make my own for the fun of it.
 	{
 		int maxpoweroftwo = startingPowerOfTwo;//Gg. GG. (This var is a temporary store, btw)
@@ -90,6 +92,9 @@ public class Quiz extends Activity {
 		boolean FirstRun = true;
 		ArrayList <BinaryDigit> ListOfBinaryDigits = new ArrayList<BinaryDigit>();
 		String temporaryBinaryAsString = "";
+		
+		//Make sure that startingPowerOfTwo is NOT above zero!!
+		if(startingPowerOfTwo > 0) startingPowerOfTwo = 0;
 		
 		//startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
 		//to start checking from 1. This value is usually zero or less... (2^0 = 1)
@@ -120,14 +125,14 @@ public class Quiz extends Activity {
 			//Step 1
 			for(int poweroftwo = startingPowerOfTwo; ; poweroftwo++)
 			{
-				if( (2 ^ poweroftwo) > decimalvalueleft)
+				if( (Math.pow(2, poweroftwo)) >= decimalvalueleft)
 				{
-					maxpoweroftwo = poweroftwo - 1;
+					maxpoweroftwo = poweroftwo;
 					break;
 				}
 			}
 			//Step 2
-			decimalvalueleft -= 2 ^ maxpoweroftwo;
+			decimalvalueleft -= Math.pow(2, maxpoweroftwo);
 			
 			//Add the digit
 			ListOfBinaryDigits.add(new BinaryDigit(maxpoweroftwo, 1));
@@ -137,11 +142,13 @@ public class Quiz extends Activity {
 			if(maxpoweroftwo < 0)
 				NumberOfDecimalPoints++;
 		}
+		//Make sure maxpoweroftwo is not more than 0 to prevent missing digits before decimal point
+		if (maxpoweroftwo > 0) maxpoweroftwo = 0;
 		//Create a temporary int array for binary digits in order
-		int [] binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo];
+		int [] binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 1];
 		if(decimalvalue % 1 != 0)
 		{   //Give space for the fullstop.
-			binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 1];
+			binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 2];
 		}
 		//Make a flag for before and after decimal point numbers during the  foreach loop
 		boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
