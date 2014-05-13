@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#12A421"
     tools:context="com.teamkarbon.android.binaryextras.Quiz" >
 
     <LinearLayout
@@ -12,8 +12,8 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            />
+            android:layout_height="100dp" />
+        
         <TextView
             android:id="@+id/Instructions"
             android:layout_width="match_parent"
@@ -33,21 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="136dp"
             android:layout_weight="0.01"
+            android:shadowColor="#143214"
             android:text="A Derpy Button" />
 
     </LinearLayout>
-
-    <android.support.v7.widget.Space
-        android:id="@+id/space1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </FrameLayout>

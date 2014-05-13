@@ -4,5 +4,13 @@
     <string name="app_name">BinaryExtras</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_settings">Settings</string>
+    
+    <!-- MainActivity -->
+    <string name="textViewtitle">BinaryExtras</string>
+    <string name="ButtonConverter">Converter!</string>
+    <string name="ButtonQuiz">Quiz!</string>
+    <string name="textViewBin">Binary Loading . . .</string>
 
 </resources>
