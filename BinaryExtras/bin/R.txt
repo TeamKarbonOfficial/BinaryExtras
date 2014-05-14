@@ -197,8 +197,9 @@ int id textViewBin 0x7f040016
 int id textViewtitle 0x7f040012
 int id top 0x7f040004
 int id vertical 0x7f040001
-int layout activity_main 0x7f030000
-int layout activity_quiz 0x7f030001
+int layout activity_converter 0x7f030000
+int layout activity_main 0x7f030001
+int layout activity_quiz 0x7f030002
 int menu main 0x7f090000
 int string ButtonConverter 0x7f070006
 int string ButtonQuiz 0x7f070007
