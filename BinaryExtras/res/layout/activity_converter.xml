@@ -3,11 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#216621"
+    android:gravity="center|center_vertical|left"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Converter" >
+
+    <EditText
+        android:id="@+id/InputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"
+        android:background="#335577"
+        android:ems="10"
+        android:hint="Enter value to convert"
+        android:textColor="#44dc44"
+        android:textColorHint="#44dc44"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/ToBinaryButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="77dp"
+            android:layout_weight="3"
+            android:background="#665533"
+            android:text="To Binary"
+            android:textColor="#44cc44"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:onClick="ToBinary_Click" />
+
+        <Button
+            android:id="@+id/ToDecimalButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="#665533"
+            android:text="To Decimal"
+            android:textColor="#44cc44"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:onClick="ToDecimal_Click" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/OutputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"
+        android:background="#335577"
+        android:text="TextView"
+        android:textColor="#55dd55"
+        android:textSize="30sp" />
     
 </LinearLayout>

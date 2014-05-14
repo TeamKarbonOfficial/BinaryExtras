@@ -7,6 +7,7 @@ import com.teamkarbon.android.binaryextras.Quiz.BinaryDigit;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 public class Converter extends Activity {
 
@@ -21,7 +22,14 @@ public class Converter extends Activity {
 	    
 	}
 
-	
+	public void ToBinary_Click(View view)
+	{
+		
+	}
+	public void ToDecimal_Click(View view)
+	{
+		
+	}
 	
 	public String ToBinary(double decimalvalue, int AccuracyInDP)//I shall make my own for the fun of it.
 	{
