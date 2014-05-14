@@ -8,9 +8,14 @@ import com.teamkarbon.android.binaryextras.Quiz.BinaryDigit;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class Converter extends Activity {
 
+	public EditText inputbox;
+	public TextView outputbox;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -19,16 +24,45 @@ public class Converter extends Activity {
 	    setContentView(R.layout.activity_converter);
 	    // TODO Auto-generated method stub
 	    
-	    
+	    inputbox = (EditText) findViewById(R.id.InputText);
+	    outputbox = (TextView) findViewById(R.id.OutputText);
 	}
 
 	public void ToBinary_Click(View view)
 	{
-		
+		try
+		{
+			outputbox.setText(ToBinary(Double.parseDouble(inputbox.getText().toString()), 90));
+		}
+		catch (Exception e)
+		{
+			outputbox.setText("Invalid input!");
+		}
 	}
 	public void ToDecimal_Click(View view)
 	{
-		
+		try
+		{
+			double tempstore = 0;
+			int indexOfDecimalPoint = 0;
+			ArrayList <BinaryDigit> listOfDigits = new ArrayList <BinaryDigit>();
+			String str = inputbox.getText().toString();
+			if(!str.contains(".")) str += ".";
+			if(str.contains("."))
+				indexOfDecimalPoint = str.indexOf(".");
+			for(int count = 0; count < str.length(); count ++)
+			{
+				listOfDigits.add(new BinaryDigit(indexOfDecimalPoint - count - 1, Integer.decode(String.valueOf(str.charAt(count)))));
+			}
+			for(BinaryDigit bd : listOfDigits)
+			{
+				tempstore += Math.pow(2, bd.powerOfTwo) * bd.Value;
+			}
+		}
+		catch (Exception e)
+		{
+			
+		}
 	}
 	
 	public String ToBinary(double decimalvalue, int AccuracyInDP)//I shall make my own for the fun of it.

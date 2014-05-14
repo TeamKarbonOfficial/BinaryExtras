@@ -15,7 +15,7 @@
         android:id="@+id/InputText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.06"
+        android:layout_weight="0.04"
         android:background="#335577"
         android:ems="10"
         android:hint="Enter value to convert"
@@ -59,9 +59,9 @@
         android:id="@+id/OutputText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.06"
+        android:layout_weight="0.09"
         android:background="#335577"
-        android:text="TextView"
+        android:text="0"
         android:textColor="#55dd55"
         android:textSize="30sp" />
     
