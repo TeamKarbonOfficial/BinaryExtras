@@ -2,39 +2,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#12A421"
+    android:background="#124421"
     tools:context="com.teamkarbon.android.binaryextras.Quiz" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="355dp"
         android:orientation="vertical" >
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
         
         <TextView
             android:id="@+id/Instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.47"
-            android:text="TextView" />
+            android:layout_weight="1.35"
+            android:text="TextView"
+            android:textColor="#66cc66"
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.32"
-            android:ems="10" />
+            android:layout_weight="0.86"
+            android:background="#227322"
+            android:ems="10"
+            android:textColor="#66cc66"
+            android:textColorHint="#66cc66"
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/THEbutton"
             android:layout_width="match_parent"
-            android:layout_height="136dp"
-            android:layout_weight="0.01"
+            android:layout_height="115dp"
+            android:background="#065588"
             android:shadowColor="#143214"
-            android:text="A Derpy Button" />
+            android:text="A Derpy Button"
+            android:textColor="#33aa33"
+            android:textColorHint="#33aa33"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
