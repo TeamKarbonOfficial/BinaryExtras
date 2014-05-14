@@ -58,10 +58,11 @@ public class Converter extends Activity {
 			{
 				tempstore += Math.pow(2, bd.powerOfTwo) * bd.Value;
 			}
+			outputbox.setText(String.valueOf(tempstore));
 		}
 		catch (Exception e)
 		{
-			
+			outputbox.setText("Invalid input!");
 		}
 	}
 	
