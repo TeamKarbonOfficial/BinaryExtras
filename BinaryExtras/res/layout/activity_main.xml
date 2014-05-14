@@ -31,7 +31,8 @@
         android:background="#337733"
         android:text="@string/ButtonConverter"
         android:textColor="#44bb44"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:onClick="Converter_Click" />
 
     <Button
         android:id="@+id/ButtonQuiz"
@@ -43,7 +44,7 @@
         android:text="@string/ButtonQuiz"
         android:textColor="#44bb44"
         android:textSize="40sp"
-        android:onClick="Quiz_Click" />
+        android:onClick="Quiz_Click" /> <!-- yes this also works!! -->
 
     <TextView
         android:id="@+id/Space"
