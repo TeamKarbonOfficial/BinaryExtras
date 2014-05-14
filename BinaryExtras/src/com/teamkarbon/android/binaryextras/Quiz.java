@@ -83,9 +83,9 @@ public class Quiz extends Activity {
 	};
 	
 	
-	public String ToBinary(double decimalvalue, int startingPowerOfTwo)//I shall make my own for the fun of it.
+	public String ToBinary(double decimalvalue, int AccuracyInDP)//I shall make my own for the fun of it.
 	{
-		int maxpoweroftwo = startingPowerOfTwo;//Gg. GG. (This var is a temporary store, btw)
+		int maxpoweroftwo = -AccuracyInDP;//Gg. GG. (This var is a temporary store, btw)
 		double decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
 		int NumberOfDecimalPoints = 0;
 		int HighestPowerOfTwo = 0;
@@ -94,7 +94,7 @@ public class Quiz extends Activity {
 		String temporaryBinaryAsString = "";
 		
 		//Make sure that startingPowerOfTwo is NOT above zero!!
-		if(startingPowerOfTwo > 0) startingPowerOfTwo = 0;
+		if(AccuracyInDP < 0) AccuracyInDP = 0;
 		
 		//startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
 		//to start checking from 1. This value is usually zero or less... (2^0 = 1)
@@ -123,7 +123,7 @@ public class Quiz extends Activity {
 		while(decimalvalueleft > 0 && NumberOfDecimalPoints < 80)
 		{
 			//Step 1
-			for(int poweroftwo = startingPowerOfTwo; ; poweroftwo++)
+			for(int poweroftwo = -AccuracyInDP; ; poweroftwo++)
 			{
 				if( (Math.pow(2, poweroftwo)) > decimalvalueleft)
 				{
@@ -187,7 +187,7 @@ public class Quiz extends Activity {
 		}
 		//Init indexOfZeroPower
 		indexOfZeroPower = HighestPowerOfTwo + 1;
-				
+		
 		//Fill in all empty spaces with zero (except the space which is supposed to be a "."
 		for(int count = 0; count < binaryIntArray.length; count ++)
 		{
