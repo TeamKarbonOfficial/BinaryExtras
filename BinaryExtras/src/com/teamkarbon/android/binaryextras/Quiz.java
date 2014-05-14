@@ -83,10 +83,10 @@ public class Quiz extends Activity {
 	};
 	
 	
-	public String ToBinary(float decimalvalue, int startingPowerOfTwo)//I shall make my own for the fun of it.
+	public String ToBinary(double decimalvalue, int startingPowerOfTwo)//I shall make my own for the fun of it.
 	{
 		int maxpoweroftwo = startingPowerOfTwo;//Gg. GG. (This var is a temporary store, btw)
-		float decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
+		double decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
 		int NumberOfDecimalPoints = 0;
 		int HighestPowerOfTwo = 0;
 		boolean FirstRun = true;
@@ -125,11 +125,16 @@ public class Quiz extends Activity {
 			//Step 1
 			for(int poweroftwo = startingPowerOfTwo; ; poweroftwo++)
 			{
-				if( (Math.pow(2, poweroftwo)) >= decimalvalueleft)
+				if( (Math.pow(2, poweroftwo)) > decimalvalueleft)
 				{
-					maxpoweroftwo = poweroftwo;
+					maxpoweroftwo = poweroftwo - 1;
 					break;
 				}
+                else if ((Math.pow(2, poweroftwo)) == decimalvalueleft)
+                {
+                    maxpoweroftwo = poweroftwo;
+                    break;
+                }
 			}
 			//Step 2
 			decimalvalueleft -= Math.pow(2, maxpoweroftwo);
@@ -139,19 +144,27 @@ public class Quiz extends Activity {
 			if(FirstRun)
 				HighestPowerOfTwo = maxpoweroftwo;
 			FirstRun = false;
-			if(maxpoweroftwo < 0)
-				NumberOfDecimalPoints++;
+			
+			if(NumberOfDecimalPoints + maxpoweroftwo < 0)
+				NumberOfDecimalPoints = - maxpoweroftwo;
 		}
+		
 		//Make sure maxpoweroftwo is not more than 0 to prevent missing digits before decimal point
 		if (maxpoweroftwo > 0) maxpoweroftwo = 0;
+		
+		//Make sure HighestPowerOfTwo is not less than 0 to prevent missing digits after decimal point which are 0s
+		if (HighestPowerOfTwo < 0) HighestPowerOfTwo = 0;
+		
 		//Create a temporary int array for binary digits in order
 		int [] binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 1];
 		if(decimalvalue % 1 != 0)
 		{   //Give space for the fullstop.
 			binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 2];
 		}
+		
 		//Make a flag for before and after decimal point numbers during the  foreach loop
 		boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
+		
 		//Make an int to keep the index of the char which belongs to 2^0 group
 		int indexOfZeroPower;
 		//Run the for loop to fill in the 1s
@@ -185,12 +198,12 @@ public class Quiz extends Activity {
 		//Fill in decimal point and make the string
 		for(int count = 0; count < binaryIntArray.length; count ++)
 		{
+			if(count == indexOfZeroPower)
+				temporaryBinaryAsString += ".";
 			if(binaryIntArray[count] == 1)
 				temporaryBinaryAsString += "1";
 			else if (binaryIntArray[count] == 0)
 				temporaryBinaryAsString += "0";
-			else
-				temporaryBinaryAsString += ".";
 		}
 		
 		return temporaryBinaryAsString;
