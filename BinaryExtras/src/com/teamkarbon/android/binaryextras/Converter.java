@@ -7,6 +7,9 @@ import com.teamkarbon.android.binaryextras.Quiz.BinaryDigit;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.DebugUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -144,6 +147,7 @@ public class Converter extends Activity {
 		{   //Give space for the fullstop.
 			binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 2];
 		}
+		Log.d("Converter", "binaryIntArraySize: " + binaryIntArray.length);
 		
 		//Make a flag for before and after decimal point numbers during the  foreach loop
 		boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
@@ -183,7 +187,7 @@ public class Converter extends Activity {
 		{
 			if(count == indexOfZeroPower)
 				temporaryBinaryAsString += ".";
-			if(binaryIntArray[count] == 1)
+			else if(binaryIntArray[count] == 1)
 				temporaryBinaryAsString += "1";
 			else if (binaryIntArray[count] == 0)
 				temporaryBinaryAsString += "0";
