@@ -7,15 +7,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="355dp"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
         
         <TextView
             android:id="@+id/Instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.35"
-            android:text="TextView"
+            android:layout_weight="0.86"
+            android:text="Choose a level from 1 to 9 below and hit the button."
             android:textColor="#66cc66"
             android:textSize="30sp" />
 
@@ -23,7 +23,7 @@
             android:id="@+id/Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.86"
+            android:layout_weight="0.74"
             android:background="#227322"
             android:ems="10"
             android:textColor="#66cc66"

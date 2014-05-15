@@ -31,6 +31,9 @@ public class Quiz extends Activity {
 	public Button enterButton;
 	public EditText input;
 	
+	public int level;
+	public int noOfQns;
+	
 	public boolean HazTehGaemStahrtad;
 	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
 											  //Binary to decimal.
@@ -51,14 +54,7 @@ public class Quiz extends Activity {
 		//Set event
 		enterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(HazTehGaemStahrtad)
-                {
-                	
-                }
-                else
-                {
-                	HazTehGaemStahrtad = true;
-                }
+                
             }
         });
 	}
