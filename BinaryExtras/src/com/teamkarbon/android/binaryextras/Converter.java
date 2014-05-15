@@ -35,27 +35,43 @@ public class Converter extends Activity {
 	{
 		try
 		{
-			outputbox.setText(ToBinary(Double.parseDouble(inputbox.getText().toString()), 90));
+			String tempstore;
+			tempstore = inputbox.getText().toString();
+			tempstore.replaceAll("\\s+","");
+			outputbox.setText(ToBinary(Double.parseDouble(tempstore), 90));
 		}
 		catch (Exception e)
 		{
-			outputbox.setText("Invalid input!");
+			outputbox.setText("Invalid input! Make sure you entered a valid decimal number! '0-9' and '.' accepted only!");
 		}
 	}
 	public void ToDecimal_Click(View view)
 	{
+		
+		String str = inputbox.getText().toString().replaceAll("\\s+","");
+		
 		try
 		{
+			if(str.contains("2")||str.contains("3")||str.contains("4")||str.contains("5")||str.contains("6")
+					||str.contains("7")||str.contains("8")||str.contains("9"))
+			{
+				outputbox.setText("Binary only has 0 or 1 as a digit. Did you intend to press the other button?" +
+						" Anyways, if you did, here's your answer: " + ToBinary(Double.parseDouble(str), 90));
+			}
+			
 			double tempstore = 0;
-			int indexOfDecimalPoint = 0;
+			int indexOfDecimalPoint;
 			ArrayList <BinaryDigit> listOfDigits = new ArrayList <BinaryDigit>();
-			String str = inputbox.getText().toString();
+			
+			//Add . if original string doesn't have. Used as a reference point.
 			if(!str.contains(".")) str += ".";
-			if(str.contains("."))
-				indexOfDecimalPoint = str.indexOf(".");
+			indexOfDecimalPoint = str.indexOf(".");
 			for(int count = 0; count < str.length(); count ++)
 			{
-				listOfDigits.add(new BinaryDigit(indexOfDecimalPoint - count - 1, Integer.decode(String.valueOf(str.charAt(count)))));
+				if(str.charAt(count) == "1".charAt(0))
+					listOfDigits.add(new BinaryDigit(indexOfDecimalPoint - count - 1, 1));
+				if(str.charAt(count) == "0".charAt(0))
+					listOfDigits.add(new BinaryDigit(indexOfDecimalPoint - count - 1, 0));
 			}
 			for(BinaryDigit bd : listOfDigits)
 			{
@@ -65,7 +81,7 @@ public class Converter extends Activity {
 		}
 		catch (Exception e)
 		{
-			outputbox.setText("Invalid input!");
+			outputbox.setText("Invalid input! Make sure you entered a valid binary number! '1', '0' and '.' accepted only!");
 		}
 	}
 	
@@ -147,7 +163,7 @@ public class Converter extends Activity {
 		{   //Give space for the fullstop.
 			binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 2];
 		}
-		Log.d("Converter", "binaryIntArraySize: " + binaryIntArray.length);
+		// Useless debug: Log.d("Converter", "binaryIntArraySize: " + binaryIntArray.length);
 		
 		//Make a flag for before and after decimal point numbers during the  foreach loop
 		boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
