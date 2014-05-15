@@ -31,8 +31,8 @@ public class Quiz extends Activity {
 	public Button enterButton;
 	public EditText input;
 	
-	public int level;
-	public int noOfQns;
+	public int level = 0;
+	public int noOfQns = 0;
 	
 	public boolean HazTehGaemStahrtad;
 	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
@@ -49,12 +49,26 @@ public class Quiz extends Activity {
 		HazTehGaemStahrtad = false;
 		
 		//On startup,
-		instructionView.setText("Press Button to start!");
+		instructionView.setText("Choose a level from 1 to 9 below and hit the button.");
 		
 		//Set event
 		enterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                
+                if(level == 0)
+                {
+                	if(input.getText().toString().replaceAll("\\s", "").matches("[1-9]"))
+                	{
+                		try
+                		{
+                			level = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
+                		}
+                		catch (Exception e)
+                		{
+                			level = 0;
+                			instructionView.setText("Invalid value! Choose a level from 1 to 9 below and hit the button.");
+                		}
+                	}
+                }
             }
         });
 	}
