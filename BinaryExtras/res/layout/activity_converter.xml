@@ -47,12 +47,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#665533"
+            android:background="#337777"
+            android:onClick="ToDecimal_Click"
             android:text="To Decimal"
             android:textColor="#44cc44"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:onClick="ToDecimal_Click" />
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <TextView
