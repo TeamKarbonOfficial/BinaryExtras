@@ -30,6 +30,7 @@ public class Quiz extends Activity {
 	
 	public int level = 0;
 	public int noOfQns = 0;
+	public int currentQn = 0;
 	
 	public boolean HazTehGaemStahrtad;
 	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
@@ -68,21 +69,31 @@ public class Quiz extends Activity {
                 		}
                 	}
                 }
-                if(level > 0 && noOfQns == 0)
+                else if(level > 0 && noOfQns == 0)
                 {
                 	try
                 	{
                 		noOfQns = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
                 		instructionView.setText("Press the button to start!");
+                		currentQn = 1;
                 	}
                 	catch (Exception e)
                 	{
                 		instructionView.setText("Invalid value! Please enter a number...");
                 	}
                 }
-                else //Game is started
+                else if (currentQn > 0)//Game is started
                 {
-                	
+                	if(currentQn <= noOfQns)
+                	{
+                		
+                		
+                		if(currentQn == noOfQns)//Game over lol give stats, etc
+                		{
+                			
+                		}
+                		currentQn ++;
+                	}
                 }
             }
         });
