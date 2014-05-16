@@ -36,6 +36,7 @@
         <activity android:name="com.teamkarbon.android.binaryextras.Converter"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <activity android:name="LevelSelect"></activity>
     </application>
 
 </manifest>
