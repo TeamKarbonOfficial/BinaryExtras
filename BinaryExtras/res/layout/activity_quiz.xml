@@ -39,7 +39,8 @@
             android:text="A Derpy Button"
             android:textColor="#33aa33"
             android:textColorHint="#33aa33"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:onClick="derp_click" />
 
     </LinearLayout>
 

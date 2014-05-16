@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.teamkarbon.android.binaryextras.util.SystemUiHider;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
  * @see SystemUiHider
  */
 public class Quiz extends Activity {
+	public Intent currentIntent;
 	
 	public int givenValue;//In decimal, of course
 	public String instructions;
@@ -30,11 +32,14 @@ public class Quiz extends Activity {
 	
 	public int level = 0;
 	public int noOfQns = 0;
+	public boolean binToDec, decToBin;
+	
 	public int currentQn = 0;
 	
 	public boolean HazTehGaemStahrtad;
 	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
 											  //Binary to decimal.
+	public boolean QuestionMode;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,57 +51,38 @@ public class Quiz extends Activity {
 		input = (EditText) findViewById(R.id.Input);
 		HazTehGaemStahrtad = false;
 		
-		//On startup,
-		instructionView.setText("Choose a level from 1 to 9 below and hit the button.");
+		currentIntent = getIntent();
+		level = currentIntent.getIntExtra("level", 1);
+		noOfQns = currentIntent.getIntExtra("question count", 5);
 		
-		//Set event
-		enterButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(level == 0)
-                {
-                	if(input.getText().toString().replaceAll("\\s", "").matches("[1-9]"))
-                	{
-                		try
-                		{
-                			level = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
-                			instructionView.setText("Level " + level + "selected! Enter number of questions (Less than a hundred" +
-                					" unless you're really bored...");
-                		}
-                		catch (Exception e)
-                		{
-                			level = 0;
-                			instructionView.setText("Invalid value! Choose a level from 1 to 9 below and hit the button.");
-                		}
-                	}
-                }
-                else if(level > 0 && noOfQns == 0)
-                {
-                	try
-                	{
-                		noOfQns = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
-                		instructionView.setText("Press the button to start!");
-                		currentQn = 1;
-                	}
-                	catch (Exception e)
-                	{
-                		instructionView.setText("Invalid value! Please enter a number...");
-                	}
-                }
-                else if (currentQn > 0)//Game is started
-                {
-                	if(currentQn <= noOfQns)
-                	{
-                		
-                		
-                		if(currentQn == noOfQns)//Game over lol give stats, etc
-                		{
-                			
-                		}
-                		currentQn ++;
-                	}
-                }
-            }
-        });
+		instructionView.setText("Difficulty Level: " + level + " | Total Questions: " + noOfQns
+				+ ". Press the derpy button to start!");
+		
+		QuestionMode = true;
+	}
+	
+	public void derp_click(View view)
+	{
+		if(QuestionMode)//Time to give a question!
+		{
+			double Min, Max;
+			boolean WithDecimal;
+			//TODO: A lot of work here!
+			switch(level)
+			{
+			case 1:
+				break;
+			}
+			QuestionMode = false;
+		}
+		else//Time to get an answer!
+		{
+			QuestionMode = true;
+		}
+		if(currentQn == noOfQns)//Last question.. display stats after this
+		{
+			
+		}
 	}
 
 	@Override
