@@ -18,16 +18,6 @@
     <string name="ToBinaryButton">To Binary</string>
     <string name="ToDecimalButton">To Decimal</string>
     <string name="OutputText">0</string>
-    <string-array name="NoOfQnsSelect">
-        <item>5</item>
-        <item>10</item>
-        <item>20</item>
-        <item>30</item>
-        <item>40</item>
-        <item>50</item>
-        <item>100</item>
-        <item>1000 (Are you kidding me.)</item>
-    </string-array>
 
 
 </resources>
