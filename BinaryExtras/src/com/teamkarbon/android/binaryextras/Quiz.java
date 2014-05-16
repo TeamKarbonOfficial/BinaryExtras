@@ -68,16 +68,21 @@ public class Quiz extends Activity {
                 		}
                 	}
                 }
-                if(level > 0)
+                if(level > 0 && noOfQns == 0)
                 {
                 	try
                 	{
                 		noOfQns = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
+                		instructionView.setText("Press the button to start!");
                 	}
                 	catch (Exception e)
                 	{
                 		instructionView.setText("Invalid value! Please enter a number...");
                 	}
+                }
+                else //Game is started
+                {
+                	
                 }
             }
         });
