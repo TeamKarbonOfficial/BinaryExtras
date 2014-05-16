@@ -61,6 +61,17 @@
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#44cc44"
         android:background="#447744" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#334499"
+        android:text="Start!"
+        android:textColor="#44cc44"
+        android:textSize="30sp"
+        android:onClick="meep" />
 
 </LinearLayout>
