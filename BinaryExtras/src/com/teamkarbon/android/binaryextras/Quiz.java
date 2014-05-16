@@ -61,12 +61,25 @@ public class Quiz extends Activity {
                 		try
                 		{
                 			level = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
+                			instructionView.setText("Level " + level + "selected! Enter number of questions (Less than a hundred" +
+                					" unless you're really bored...");
                 		}
                 		catch (Exception e)
                 		{
                 			level = 0;
                 			instructionView.setText("Invalid value! Choose a level from 1 to 9 below and hit the button.");
                 		}
+                	}
+                }
+                if(level > 0)
+                {
+                	try
+                	{
+                		noOfQns = Integer.parseInt(input.getText().toString().replaceAll("\\s", ""));
+                	}
+                	catch (Exception e)
+                	{
+                		instructionView.setText("Invalid value! Please enter a number...");
                 	}
                 }
             }
