@@ -12,5 +12,11 @@
     <string name="ButtonConverter">Converter!</string>
     <string name="ButtonQuiz">Quiz!</string>
     <string name="textViewBin">Binary Loading . . .</string>
+    
+    <!-- Converter -->
+    <string name="InputTest">Enter value to convert</string>
+    <string name="ToBinaryButton">To Binary</string>
+    <string name="ToDecimalButton">To Decimal</string>
+    <string name="OutputText">0</string>
 
 </resources>

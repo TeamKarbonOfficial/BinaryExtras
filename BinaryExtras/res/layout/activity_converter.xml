@@ -18,7 +18,8 @@
         android:layout_weight="0.04"
         android:background="#335577"
         android:ems="10"
-        android:hint="Enter value to convert"
+        android:hint="@string/InputTest"
+        android:inputType="phone"
         android:textColor="#44dc44"
         android:textColorHint="#44dc44"
         android:textSize="30sp" />
@@ -35,11 +36,11 @@
             android:layout_height="77dp"
             android:layout_weight="3"
             android:background="#665533"
-            android:text="To Binary"
+            android:onClick="ToBinary_Click"
+            android:text="@string/ToBinaryButton"
             android:textColor="#44cc44"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:onClick="ToBinary_Click" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/ToDecimalButton"
@@ -49,7 +50,7 @@
             android:layout_weight="3"
             android:background="#337777"
             android:onClick="ToDecimal_Click"
-            android:text="To Decimal"
+            android:text="@string/ToDecimalButton"
             android:textColor="#44cc44"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -62,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.09"
         android:background="#335577"
-        android:text="0"
+        android:text="@string/OutputText"
         android:textColor="#55dd55"
         android:textSize="30sp" />
     

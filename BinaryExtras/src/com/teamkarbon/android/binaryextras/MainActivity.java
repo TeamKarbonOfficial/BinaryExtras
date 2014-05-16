@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-	//Declare
+	// Declare
 	Button QuizButton, ConverterButton;
 	TextView TitleView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,15 +26,13 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	public void Quiz_Click (View view)
-	{
+
+	public void Quiz_Click(View view) {
 		Intent intent = new Intent(MainActivity.this, Quiz.class);
 		MainActivity.this.startActivity(intent);
 	}
 
-	public void Converter_Click (View view)
-	{
+	public void Converter_Click(View view) {
 		Intent intent = new Intent(MainActivity.this, Converter.class);
 		MainActivity.this.startActivity(intent);
 	}
