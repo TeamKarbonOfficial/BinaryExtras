@@ -83,7 +83,7 @@ public class Quiz extends Activity {
 	{
 		if(QuestionMode)//Time to give a question!
 		{
-			double Min, Max, SmallestInterval;
+			double Min = 0, Max = 0; int SmallestPowerOfTwo = 0;
 			boolean WithDecimal;
 			
 			double ValueToConvert;
@@ -93,56 +93,68 @@ public class Quiz extends Activity {
 			case 1:
 				Min = Math.pow(2, 0);
 				Max = Math.pow(2, 3);
-				SmallestInterval = 1;
+				SmallestPowerOfTwo = 0;
 				break;
 			case 2:
 				Min = Math.pow(2, 0);
 				Max = Math.pow(2, 5);
-				SmallestInterval = 1;
+				SmallestPowerOfTwo = 0;
 				break;
 			case 3:
 				Min = Math.pow(2, 0);
 				Max = Math.pow(2, 7);
-				SmallestInterval = 1;
+				SmallestPowerOfTwo = 0;
 				break;
 			case 4:
 				Min = Math.pow(2, 0);
 				Max = Math.pow(2, 8);
-				SmallestInterval = 1;
+				SmallestPowerOfTwo = 0;
 				break;
 			case 5:
 				Min = Math.pow(2, -1);
 				Max = Math.pow(2, 8);
-				SmallestInterval = 0.5;
+				SmallestPowerOfTwo = -1;
 				break;
 			case 6:
 				Min = Math.pow(2, -1);
 				Max = Math.pow(2, 9);
-				SmallestInterval = 0.5;
+				SmallestPowerOfTwo = -1;
 				break;
 			case 7:
 				Min = Math.pow(2, -2);
 				Max = Math.pow(2, 9);
-				SmallestInterval = 0.25;
+				SmallestPowerOfTwo = -2;
 				break;
 			case 8:
 				Min = Math.pow(2, -3);
 				Max = Math.pow(2, 10);
-				SmallestInterval = Math.pow(2, -3);
+				SmallestPowerOfTwo = -3;
 				break;
 			case 9:
 				Min = Math.pow(2, -5);
 				Max = Math.pow(2, 20);
-				SmallestInterval = Math.pow(2, -5);
+				SmallestPowerOfTwo = -5;
 				break;
 			}
 			if(binToDec && decToBin)
 			{
-				if(rndGen.nextInt(1) == 0)
+				if(rndGen.nextInt(1) == 0)//binToDec type
 				{
-					
+					if(SmallestPowerOfTwo == 1)
+						instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
+					else
+					{
+						double tempDouble = 0;
+						double SmallestIntervalUsed = 0;
+						
+						SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
+						
+						//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
+						//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+						//tempDouble = rndGen.nextInt((int) (Max - Min)) + Math.pow(2, SmallestIntervalUsed);
+					}
 				}
-				else
+				else//decToBin type
 				{
 					
 				}
