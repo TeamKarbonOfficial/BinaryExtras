@@ -65,12 +65,55 @@ public class Quiz extends Activity {
 	{
 		if(QuestionMode)//Time to give a question!
 		{
-			double Min, Max;
+			double Min, Max, SmallestInterval;
 			boolean WithDecimal;
 			//TODO: A lot of work here!
 			switch(level)
 			{
 			case 1:
+				Min = Math.pow(2, 0);
+				Max = Math.pow(2, 3);
+				SmallestInterval = 1;
+				break;
+			case 2:
+				Min = Math.pow(2, 0);
+				Max = Math.pow(2, 5);
+				SmallestInterval = 1;
+				break;
+			case 3:
+				Min = Math.pow(2, 0);
+				Max = Math.pow(2, 7);
+				SmallestInterval = 1;
+				break;
+			case 4:
+				Min = Math.pow(2, 0);
+				Max = Math.pow(2, 8);
+				SmallestInterval = 1;
+				break;
+			case 5:
+				Min = Math.pow(2, -1);
+				Max = Math.pow(2, 8);
+				SmallestInterval = 0.5;
+				break;
+			case 6:
+				Min = Math.pow(2, -1);
+				Max = Math.pow(2, 9);
+				SmallestInterval = 0.5;
+				break;
+			case 7:
+				Min = Math.pow(2, -2);
+				Max = Math.pow(2, 9);
+				SmallestInterval = 0.25;
+				break;
+			case 8:
+				Min = Math.pow(2, -3);
+				Max = Math.pow(2, 10);
+				SmallestInterval = Math.pow(2, -3);
+				break;
+			case 9:
+				Min = Math.pow(2, -5);
+				Max = Math.pow(2, 20);
+				SmallestInterval = Math.pow(2, -5);
 				break;
 			}
 			QuestionMode = false;
