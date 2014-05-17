@@ -3,6 +3,8 @@ package com.teamkarbon.android.binaryextras;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import com.flurry.android.FlurryAgent;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,18 @@ public class Converter extends Activity {
 		
 		inputbox = (EditText) findViewById(R.id.InputText);
 		outputbox = (TextView) findViewById(R.id.OutputText);
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
 	}
 
 	public void ToBinary_Click(View view) {
