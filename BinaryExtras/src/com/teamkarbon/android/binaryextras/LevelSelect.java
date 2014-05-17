@@ -1,5 +1,7 @@
 package com.teamkarbon.android.binaryextras;
 
+import com.flurry.android.FlurryAgent;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,12 +78,24 @@ public class LevelSelect extends Activity{
             }       
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg1)
-            {
+            public void onNothingSelected(AdapterView<?> arg1) {
             	//Do nothing.
             }
         });
 	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+	
 	public void start_click(View view)//On Start! button click
 	{
 		Intent intent = new Intent(LevelSelect.this, Quiz.class);

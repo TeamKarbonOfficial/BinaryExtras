@@ -52,24 +52,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.2" />
 
-    <TextView
-        android:id="@+id/textViewBin"
+    <FrameLayout
+        android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="0.26"
-        android:text="@string/textViewBin"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#44bb44" />
-
-    <!-- Placed it here just incase we want advertisements -->
-
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:background="#118844" />
+        android:layout_weight="0.10" >
+    </FrameLayout>
     
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.teamkarbon.android.binaryextras;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import com.flurry.android.FlurryAgent;
 import com.teamkarbon.android.binaryextras.util.SystemUiHider;
 
 import android.app.Activity;
@@ -59,6 +60,18 @@ public class Quiz extends Activity {
 				+ ". Press the derpy button to start!");
 		
 		QuestionMode = true;
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
 	}
 	
 	public void derp_click(View view)
