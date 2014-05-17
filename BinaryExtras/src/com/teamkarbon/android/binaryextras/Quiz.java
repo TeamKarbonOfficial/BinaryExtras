@@ -2,6 +2,7 @@ package com.teamkarbon.android.binaryextras;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.teamkarbon.android.binaryextras.util.SystemUiHider;
 
@@ -41,6 +42,8 @@ public class Quiz extends Activity {
 											  //Binary to decimal.
 	public boolean QuestionMode;
 	
+	public Random rndGen;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,6 +61,8 @@ public class Quiz extends Activity {
 		instructionView.setText("Difficulty Level: " + level + " | Total Questions: " + noOfQns
 				+ ". Press the derpy button to start!");
 		
+		rndGen = new Random();
+		
 		QuestionMode = true;
 	}
 	
@@ -67,6 +72,8 @@ public class Quiz extends Activity {
 		{
 			double Min, Max, SmallestInterval;
 			boolean WithDecimal;
+			
+			double ValueToConvert;
 			//TODO: A lot of work here!
 			switch(level)
 			{
@@ -115,6 +122,25 @@ public class Quiz extends Activity {
 				Max = Math.pow(2, 20);
 				SmallestInterval = Math.pow(2, -5);
 				break;
+			}
+			if(binToDec && decToBin)
+			{
+				if(rndGen.nextInt(1) == 0)
+				{
+					
+				}
+				else
+				{
+					
+				}
+			}
+			else if(decToBin)
+			{
+				
+			}
+			else if(binToDec)
+			{
+				
 			}
 			QuestionMode = false;
 		}
