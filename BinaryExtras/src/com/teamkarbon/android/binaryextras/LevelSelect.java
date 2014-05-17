@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.*;
-import android.view.View.OnClickListener;
 
 public class LevelSelect extends Activity{
 
@@ -40,13 +39,10 @@ public class LevelSelect extends Activity{
 	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    spinner.setAdapter(adapter);//I hope this works...
 	    
-	    spinner.setOnItemSelectedListener(new OnItemSelectedListener()
-        {           
+	    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {           
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) 
-            {
-            	switch(position)
-            	{
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+            	switch(position) {
             	case 0:
             		NoOfQns = 5;
             		break;
@@ -95,24 +91,28 @@ public class LevelSelect extends Activity{
 		super.onStop();
 		FlurryAgent.onEndSession(this);
 	}
-	
-	public void start_click(View view)//On Start! button click
-	{
+
+	// On Start! button click
+	public void start_click(View view) {
 		Intent intent = new Intent(LevelSelect.this, Quiz.class);
 		intent.putExtra("question count", NoOfQns);
 		intent.putExtra("level", LevelValue);
-		
+
 		LevelSelect.this.startActivity(intent);
 	}
-	public void add_click(View view)//On + button click
-	{
-		if(LevelValue < 9) LevelValue ++;
+
+	// On + button click
+	public void add_click(View view) {
+		if (LevelValue < 9)
+			LevelValue++;
 		levelView.setText(LevelValue);
 	}
-	public void sub_click(View view)//On - button click
-	{
-		if(LevelValue > 1) LevelValue --;
+
+	// On - button click
+	public void sub_click(View view) {
+		if (LevelValue > 1)
+			LevelValue--;
 		levelView.setText(LevelValue);
 	}
-	
+
 }
