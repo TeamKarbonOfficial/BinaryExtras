@@ -81,6 +81,8 @@ public class Quiz extends Activity {
 	
 	public void derp_click(View view)
 	{
+		double properAnswer;
+		boolean IsBinToDecUsed;
 		if(QuestionMode)//Time to give a question!
 		{
 			double Min = 0, Max = 0; int SmallestPowerOfTwo = 0;
@@ -140,6 +142,7 @@ public class Quiz extends Activity {
 			{
 				if(rndGen.nextInt(1) == 0)//binToDec type
 				{
+					IsBinToDecUsed = true;
 					if(SmallestPowerOfTwo == 1)
 						instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
 					else
@@ -151,21 +154,22 @@ public class Quiz extends Activity {
 						
 						//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
 						//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-						//tempDouble = rndGen.nextInt((int) (Max - Min)) + Math.pow(2, SmallestIntervalUsed);
+						tempDouble = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+						instructionView.setText("What is " + ToBinary(tempDouble, 90) + " in decimal?");
 					}
 				}
 				else//decToBin type
 				{
-					
+					IsBinToDecUsed = false;
 				}
 			}
 			else if(decToBin)
 			{
-				
+				IsBinToDecUsed = false;
 			}
 			else if(binToDec)
 			{
-				
+				IsBinToDecUsed = true;
 			}
 			QuestionMode = false;
 		}
