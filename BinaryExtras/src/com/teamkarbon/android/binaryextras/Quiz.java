@@ -25,7 +25,7 @@ import android.widget.TextView;
 public class Quiz extends Activity {
 	public Intent currentIntent;
 	
-	public int givenValue;//In decimal, of course
+	public double givenValue;//In decimal, of course
 	public String instructions;
 	
 	public TextView instructionView;
@@ -82,7 +82,7 @@ public class Quiz extends Activity {
 	public void derp_click(View view)
 	{
 		double properAnswer;
-		boolean IsBinToDecUsed;
+		boolean IsBinToDecUsed = false;
 		if(QuestionMode)//Time to give a question!
 		{
 			double Min = 0, Max = 0; int SmallestPowerOfTwo = 0;
@@ -147,39 +147,86 @@ public class Quiz extends Activity {
 						instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
 					else
 					{
-						double tempDouble = 0;
+						double givenValue = 0;
 						double SmallestIntervalUsed = 0;
 						
 						SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
 						
 						//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
 						//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-						tempDouble = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-						instructionView.setText("What is " + ToBinary(tempDouble, 90) + " in decimal?");
+						givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+						instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
 					}
 				}
 				else//decToBin type
 				{
 					IsBinToDecUsed = false;
+					if(SmallestPowerOfTwo == 1)
+						instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary?");
+					else
+					{
+						double givenValue = 0;
+						double SmallestIntervalUsed = 0;
+						
+						SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
+						
+						//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
+						//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+						givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+						instructionView.setText("What is " + givenValue + " in binary?");
+					}
 				}
 			}
 			else if(decToBin)
 			{
 				IsBinToDecUsed = false;
+				if(SmallestPowerOfTwo == 1)
+					instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary?");
+				else
+				{
+					double givenValue = 0;
+					double SmallestIntervalUsed = 0;
+					
+					SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
+					
+					//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
+					//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+					givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+					instructionView.setText("What is " + givenValue + " in binary?");
+				}
 			}
 			else if(binToDec)
 			{
 				IsBinToDecUsed = true;
+				if(SmallestPowerOfTwo == 1)
+					instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
+				else
+				{
+					double givenValue = 0;
+					double SmallestIntervalUsed = 0;
+					
+					SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
+					
+					//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
+					//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+					givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+					instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
+				}
 			}
 			QuestionMode = false;
 		}
 		else//Time to get an answer!
 		{
-			QuestionMode = true;
-		}
-		if(currentQn == noOfQns)//Last question.. display stats after this
-		{
+			if(input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue) && IsBinToDecUsed)
+			{
+				
+			}
 			
+			QuestionMode = true;
+			if(currentQn == noOfQns)//Last question.. display stats after this
+			{
+				
+			}
 		}
 	}
 
