@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements FlurryAdListener {
 	}
 
 	public void Converter_Click(View view) {
-		Intent intent = new Intent(MainActivity.this, Converter.class);
+		Intent intent = new Intent(MainActivity.this, LevelSelect.class);
 		MainActivity.this.startActivity(intent);
 	}
 	

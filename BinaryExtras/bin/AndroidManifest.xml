@@ -42,7 +42,7 @@
         </activity>
         
         <activity 
-            android:name="LevelSelect">
+            android:name="com.teamkarbon.android.binaryextras.LevelSelect">
             
         </activity>
         
