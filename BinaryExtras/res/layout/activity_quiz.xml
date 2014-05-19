@@ -19,6 +19,14 @@
             android:textColor="#66cc66"
             android:textSize="30sp" />
 
+        <TextView
+            android:id="@+id/ScoreBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.86"
+            android:text="Score: 0"
+            android:textSize="30sp" />
+
         <EditText
             android:id="@+id/Input"
             android:layout_width="match_parent"

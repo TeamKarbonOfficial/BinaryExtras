@@ -180,6 +180,7 @@ int id InputText 0x7f040012
 int id Instructions 0x7f040021
 int id LevelView 0x7f040017
 int id OutputText 0x7f040015
+int id ScoreBox 0x7f040016
 int id Space 0x7f04001f
 int id SubLevelButton 0x7f040019
 int id THEbutton 0x7f040023
@@ -204,7 +205,6 @@ int id left 0x7f040006
 int id right 0x7f040007
 int id spinner1 0x7f04001a
 int id start 0x7f040010
-int id textView1 0x7f040016
 int id textViewtitle 0x7f04001c
 int id top 0x7f040004
 int id vertical 0x7f040001

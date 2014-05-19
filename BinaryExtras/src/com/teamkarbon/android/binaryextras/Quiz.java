@@ -3,6 +3,8 @@ package com.teamkarbon.android.binaryextras;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.flurry.android.FlurryAgent;
 import com.teamkarbon.android.binaryextras.util.SystemUiHider;
@@ -28,12 +30,13 @@ public class Quiz extends Activity {
 	public double givenValue;//In decimal, of course
 	public String instructions;
 	
-	public TextView instructionView;
+	public TextView instructionView, scoreView;
 	public Button enterButton;
 	public EditText input;
 	
 	public int level = 0;
 	public int noOfQns = 0;
+	public int noOfQnsCorrect = 0;
 	public boolean binToDec, decToBin;
 	
 	public int currentQn = 0;
@@ -45,12 +48,15 @@ public class Quiz extends Activity {
 	
 	public Random rndGen;
 	
+	public Stopwatch stopwatch;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_quiz);
 		instructionView = (TextView) findViewById(R.id.Instructions);
+		scoreView = (TextView) findViewById(R.id.ScoreBox);
 		enterButton = (Button) findViewById(R.id.THEbutton);
 		input = (EditText) findViewById(R.id.Input);
 		HazTehGaemStahrtad = false;
@@ -65,6 +71,8 @@ public class Quiz extends Activity {
 		rndGen = new Random();
 		
 		QuestionMode = true;
+		
+		stopwatch = new Stopwatch();
 	}
 	
 	@Override
@@ -89,7 +97,8 @@ public class Quiz extends Activity {
 			boolean WithDecimal;
 			
 			double ValueToConvert;
-			//TODO: A lot of work here!
+			
+			currentQn ++;
 			switch(level)
 			{
 			case 1:
@@ -157,6 +166,8 @@ public class Quiz extends Activity {
 						givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
 						instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
 					}
+					
+					stopwatch.Start();
 				}
 				else//decToBin type
 				{
@@ -175,6 +186,8 @@ public class Quiz extends Activity {
 						givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
 						instructionView.setText("What is " + givenValue + " in binary?");
 					}
+					
+					stopwatch.Start();
 				}
 			}
 			else if(decToBin)
@@ -194,6 +207,8 @@ public class Quiz extends Activity {
 					givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
 					instructionView.setText("What is " + givenValue + " in binary?");
 				}
+				
+				stopwatch.Start();
 			}
 			else if(binToDec)
 			{
@@ -212,21 +227,34 @@ public class Quiz extends Activity {
 					givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
 					instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
 				}
+				
+				stopwatch.Start();
 			}
 			QuestionMode = false;
 		}
 		else//Time to get an answer!
 		{
-			if(input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue) && IsBinToDecUsed)
-			{
-				
-			}
+			int timeTaken = stopwatch.StopAndGet();
 			
-			QuestionMode = true;
 			if(currentQn == noOfQns)//Last question.. display stats after this
 			{
-				
+				if( (IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
+					 || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7)))
+				{
+					instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
+							noOfQns + " questions right.");
+					QuestionMode = true;
+				}
 			}
+			else if( (IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
+				 || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7)))
+			{
+				noOfQnsCorrect ++;
+				instructionView.setText("Correct! Click the button to continue to question!" + currentQn);
+
+				QuestionMode = true;
+			}
+			
 		}
 	}
 
@@ -375,6 +403,7 @@ public class Quiz extends Activity {
 		
 		return temporaryBinaryAsString;
 	}
+	
 	public class BinaryDigit
 	{
 		public int powerOfTwo;//Where is the digit located?
@@ -384,6 +413,58 @@ public class Quiz extends Activity {
 		{
 			this.powerOfTwo = powerOfTwo;
 			this.Value = BinaryValue;
+		}
+	}
+	
+	public class Stopwatch
+	{
+		private int ElaspedMillisecs;
+		private Timer timer;
+		
+		private boolean isRunning = false;
+		
+		public Stopwatch()
+		{
+			ElaspedMillisecs = 0;
+			timer.scheduleAtFixedRate(new TimerTask(){
+				@Override
+				public void run()
+				{
+					if(isRunning)
+					{
+						ElaspedMillisecs += 10;
+					}
+				}
+			}, 0, 10);
+		}
+		
+		public void Start()
+		{
+			isRunning = true;
+		}
+		
+		public void Stop()
+		{
+			ElaspedMillisecs = 0;
+			isRunning = false;
+		}
+		
+		public void Restart()
+		{
+			ElaspedMillisecs = 0;
+		}
+		
+		public int getElaspedMillisecs()
+		{
+			return ElaspedMillisecs;
+		}
+		
+		public int StopAndGet()
+		{
+			int tempElasped = ElaspedMillisecs;
+			isRunning = false;
+			ElaspedMillisecs = 0;
+			return tempElasped;
 		}
 	}
 }
