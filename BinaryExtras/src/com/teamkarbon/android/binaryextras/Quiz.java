@@ -37,14 +37,13 @@ public class Quiz extends Activity {
 	public int level = 0;
 	public int noOfQns = 0;
 	public int noOfQnsCorrect = 0;
-	public boolean binToDec, decToBin;
-	
 	public int currentQn = 0;
+	public int score = 0;
 	
-	public boolean HazTehGaemStahrtad;
+	public boolean binToDec, decToBin;
 	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
-											  //Binary to decimal.
-	public boolean QuestionMode;
+	public boolean QuestionMode;			  //Binary to decimal.
+	public boolean GameOver;
 	
 	public Random rndGen;
 	
@@ -59,7 +58,7 @@ public class Quiz extends Activity {
 		scoreView = (TextView) findViewById(R.id.ScoreBox);
 		enterButton = (Button) findViewById(R.id.THEbutton);
 		input = (EditText) findViewById(R.id.Input);
-		HazTehGaemStahrtad = false;
+		GameOver = false;
 		
 		currentIntent = getIntent();
 		level = currentIntent.getIntExtra("level", 1);
@@ -91,6 +90,11 @@ public class Quiz extends Activity {
 	{
 		double properAnswer;
 		boolean IsBinToDecUsed = false;
+		if(GameOver)
+		{
+			Intent tempintent = new Intent(Quiz.this, MainActivity.class);
+			Quiz.this.startActivity(tempintent);
+		}
 		if(QuestionMode)//Time to give a question!
 		{
 			double Min = 0, Max = 0; int SmallestPowerOfTwo = 0;
@@ -241,9 +245,13 @@ public class Quiz extends Activity {
 				if( (IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
 					 || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7)))
 				{
+					score += (1000 * level) / (timeTaken / 1000);
+					
 					instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
-							noOfQns + " questions right.");
-					QuestionMode = true;
+							noOfQns + " questions right. Press the derpy button to go back.");
+					GameOver = true;
+					QuestionMode = false;
+					
 				}
 			}
 			else if( (IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
@@ -253,6 +261,8 @@ public class Quiz extends Activity {
 				instructionView.setText("Correct! Click the button to continue to question!" + currentQn);
 
 				QuestionMode = true;
+				
+				score += (1000 * level) / (timeTaken / 1000);
 			}
 			
 		}

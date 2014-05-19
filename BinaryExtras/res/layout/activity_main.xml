@@ -40,11 +40,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="#337733"
+        android:background="#448844"
+        android:onClick="Quiz_Click"
         android:text="@string/ButtonQuiz"
-        android:textColor="#44bb44"
-        android:textSize="40sp"
-        android:onClick="Quiz_Click" /> <!-- yes this also works!! -->
+        android:textColor="#44cc55"
+        android:textSize="40sp" />
+ <!-- yes this also works!! -->
 
     <TextView
         android:id="@+id/Space"
