@@ -51,7 +51,7 @@ Level Selection (LevelSelect.java, activity_levelselect.xml)
 >**TODO**: Work out the structure of how the quiz takes place.
 >>Quiz has 2 states. Result mode and Question Mode, which are toggled by the press of the Derpy Button
 
->>> **Question Mode = true**: Instructions(TextView) will be loaded with questions with the given ranges (in decimal values) and the user will type their answer in Input(EditText):
+>>> **Question Mode = true DONE**: Instructions(TextView) will be loaded with questions with the given ranges (in decimal values) and the user will type their answer in Input(EditText):
 
 >>>> Level 1: 2^[0 to 3]
 
@@ -71,6 +71,6 @@ Level Selection (LevelSelect.java, activity_levelselect.xml)
 
 >>>> Level 9: 2^[-5 to 20]
 
->>> **Question Mode = false**: Instructions(TextView) will show if the user had gotten the question to the previous answer right or wrong.
+>>> **Question Mode = false TODO**: Instructions(TextView) will show if the user had gotten the question to the previous answer right or wrong.
 
 >**TODO**: Make sure that once noOfQns (Total quantity of questions) == currentQn (Current qn number), the following Result mode (Question Mode = false) will cause "Press the derpy button to see your results!" to be added behind the original result string in Instructions.setText(string).
