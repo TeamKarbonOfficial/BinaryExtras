@@ -7,17 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.*;
 
 public class LevelSelect extends Activity{
 
+	//Declare
 	Spinner spinner;
 	TextView levelView;
 	Button plus, minus;
+	RadioGroup radioGroup1;
+	RadioButton radioBD;
+	RadioButton radioDB;
 	
 	ArrayAdapter<CharSequence> adapter;
 	
@@ -29,9 +36,11 @@ public class LevelSelect extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
-	    // TODO Auto-generated method stub
+	    //Initialize
 	    levelView = (TextView) findViewById(R.id.LevelView);
-	    
+	    radioGroup1 = (RadioGroup) findViewById(R.id.radioGroup1);
+		radioBD = (RadioButton) findViewById(R.id.radioBD);
+		radioDB = (RadioButton) findViewById(R.id.radioDB);
 	    spinner = (Spinner) findViewById(R.id.spinner1);
 	    
 	    //FIXME i need help...
@@ -78,6 +87,27 @@ public class LevelSelect extends Activity{
             	//Do nothing.
             }
         });
+	    
+		addListenerOnradioGroup1();
+	}
+	
+	//RadioGroup Listener
+	private void addListenerOnradioGroup1() {	
+		radioGroup1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup arg0, int arg1) {
+				
+				//Checking RadioButton Selected
+				if(radioBD.isChecked()) {
+					//Do something
+				} else if(radioDB.isChecked()) {
+					//Do something
+				} else {
+					//If this happens, there is some serious error :P
+				}
+
+			}
+		});
 	}
 	
 	@Override

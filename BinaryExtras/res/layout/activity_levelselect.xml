@@ -65,6 +65,32 @@
         android:layout_height="wrap_content"
         android:textColor="#44cc44"
         android:background="#447744" />
+    
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/radioBD"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Binary to Decimal"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/radioDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decimal to Binary"
+            android:textSize="20sp" />
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/ContinueButton"
