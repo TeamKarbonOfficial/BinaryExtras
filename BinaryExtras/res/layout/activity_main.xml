@@ -31,21 +31,18 @@
         android:background="#337733"
         android:text="@string/ButtonConverter"
         android:textColor="#44bb44"
-        android:textSize="40sp"
-        android:onClick="Converter_Click" />
+        android:textSize="40sp" />
 
-    <Button
+	<Button
         android:id="@+id/ButtonQuiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="#448844"
-        android:onClick="Quiz_Click"
-        android:text="@string/ButtonQuiz"
-        android:textColor="#44cc55"
+        android:background="#337733"
+        android:text="Quiz!"
+        android:textColor="#44bb44"
         android:textSize="40sp" />
- <!-- yes this also works!! -->
 
     <TextView
         android:id="@+id/Space"

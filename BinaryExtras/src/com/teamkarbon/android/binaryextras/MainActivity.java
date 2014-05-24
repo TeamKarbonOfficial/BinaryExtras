@@ -11,9 +11,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements FlurryAdListener {
 
@@ -23,13 +24,25 @@ public class MainActivity extends Activity implements FlurryAdListener {
 	
 	// Declare
 	Button QuizButton, ConverterButton;
-	TextView TitleView;
+	Button ButtonConverter;
+	Button ButtonQuiz;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mBanner = (FrameLayout)findViewById(R.id.banner);
+		
+		//Initialize
+		ButtonConverter = (Button) findViewById(R.id.ButtonConverter);
+		ButtonQuiz = (Button) findViewById(R.id.ButtonQuiz);
+		
+		//Intent
+		Intent converterintent = new Intent(MainActivity.this, Converter.class);
+		Intent levelintent = new Intent(MainActivity.this, LevelSelect.class);
+		
+		addListenerOnButtonConverter(converterintent);
+		addListenerOnButtonQuiz(levelintent);
 	}
 
 	@Override
@@ -39,14 +52,23 @@ public class MainActivity extends Activity implements FlurryAdListener {
 		return true;
 	}
 
-	public void Quiz_Click(View view) {
-		Intent intent = new Intent(MainActivity.this, Quiz.class);
-		MainActivity.this.startActivity(intent);
+	private void addListenerOnButtonConverter(final Intent converterintent) {
+		ButtonConverter.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(converterintent);
+			}
+		});
 	}
-
-	public void Converter_Click(View view) {
-		Intent intent = new Intent(MainActivity.this, LevelSelect.class);
-		MainActivity.this.startActivity(intent);
+	
+	private void addListenerOnButtonQuiz(final Intent levelintent) {
+		ButtonQuiz.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Toast.makeText(getApplicationContext(), "[DEBUG]", Toast.LENGTH_SHORT).show();
+				startActivity(levelintent);
+			}
+		});
 	}
 	
     @Override 
