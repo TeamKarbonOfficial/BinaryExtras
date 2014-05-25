@@ -6,18 +6,20 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- MainActivity -->
     <string name="textViewtitle">BinaryExtras</string>
     <string name="ButtonConverter">Converter!</string>
     <string name="ButtonQuiz">Quiz!</string>
     <string name="textViewBin">Binary Loading . . .</string>
-    
+
     <!-- Converter -->
     <string name="InputTest">Enter value to convert</string>
     <string name="ToBinaryButton">To Binary</string>
     <string name="ToDecimalButton">To Decimal</string>
     <string name="OutputText">0</string>
-
+    <string name="title_activity_level_select">LevelSelect</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_quiz">Quiz</string>
 
 </resources>

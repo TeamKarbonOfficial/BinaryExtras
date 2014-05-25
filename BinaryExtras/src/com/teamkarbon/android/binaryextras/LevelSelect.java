@@ -16,100 +16,102 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.*;
 
-public class LevelSelect extends Activity{
+public class LevelSelect extends Activity {
 
-	//Declare
+	// Declare
 	Spinner spinner;
 	TextView levelView;
 	Button plus, minus;
 	RadioGroup radioGroup1;
 	RadioButton radioBD;
 	RadioButton radioDB;
-	
+
 	ArrayAdapter<CharSequence> adapter;
-	
+
 	public int LevelValue = 1;
 	public int NoOfQns = 0;
 
-	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	
-	    //Initialize
-	    levelView = (TextView) findViewById(R.id.LevelView);
-	    radioGroup1 = (RadioGroup) findViewById(R.id.radioGroup1);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_level_select);
+
+		// Initialize
+		levelView = (TextView) findViewById(R.id.LevelView);
+		radioGroup1 = (RadioGroup) findViewById(R.id.radioGroup1);
 		radioBD = (RadioButton) findViewById(R.id.radioBD);
 		radioDB = (RadioButton) findViewById(R.id.radioDB);
-	    spinner = (Spinner) findViewById(R.id.spinner1);
-	    
-	    //FIXME i need help...
-	    adapter = ArrayAdapter.createFromResource(this, R.array.noOfQnsSpinnerList, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinner.setAdapter(adapter);//I hope this works...
-	    
-	    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {           
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-            	switch(position) {
-            	case 0:
-            		NoOfQns = 5;
-            		break;
-            	case 1:
-            		NoOfQns = 10;
-            		break;
-            	case 2:
-            		NoOfQns = 20;
-            		break;
-            	case 3:
-            		NoOfQns = 30;
-            		break;
-            	case 4:
-            		NoOfQns = 40;
-            		break;
-            	case 5:
-            		NoOfQns = 50;
-            		break;
-            	case 6:
-            		NoOfQns = 100;
-            		break;
-            	case 7:
-            		NoOfQns = 500;
-            		break;
-            	case 8:
-            		NoOfQns = 1000;
-            		break;
-            	}
-            }       
+		spinner = (Spinner) findViewById(R.id.spinner1);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg1) {
-            	//Do nothing.
-            }
-        });
-	    
+		// FIXME i need help...
+		adapter = ArrayAdapter.createFromResource(this, R.array.noOfQnsSpinnerList, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);// I hope this works...
+
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long id) {
+				switch (position) {
+				case 0:
+					NoOfQns = 5;
+					break;
+				case 1:
+					NoOfQns = 10;
+					break;
+				case 2:
+					NoOfQns = 20;
+					break;
+				case 3:
+					NoOfQns = 30;
+					break;
+				case 4:
+					NoOfQns = 40;
+					break;
+				case 5:
+					NoOfQns = 50;
+					break;
+				case 6:
+					NoOfQns = 100;
+					break;
+				case 7:
+					NoOfQns = 500;
+					break;
+				case 8:
+					NoOfQns = 1000;
+					break;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg1) {
+				// Do nothing.
+			}
+		});
+
 		addListenerOnradioGroup1();
+
 	}
-	
-	//RadioGroup Listener
-	private void addListenerOnradioGroup1() {	
+
+	// RadioGroup Listener
+	private void addListenerOnradioGroup1() {
 		radioGroup1.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup arg0, int arg1) {
-				
-				//Checking RadioButton Selected
-				if(radioBD.isChecked()) {
-					//Do something
-				} else if(radioDB.isChecked()) {
-					//Do something
+
+				// Checking RadioButton Selected
+				if (radioBD.isChecked()) {
+					// Do something
+				} else if (radioDB.isChecked()) {
+					// Do something
 				} else {
-					//If this happens, there is some serious error :P
+					// If this happens, there is some serious error :P
 				}
 
 			}
 		});
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -124,11 +126,11 @@ public class LevelSelect extends Activity{
 
 	// On Start! button click
 	public void start_click(View view) {
-		Intent intent = new Intent(LevelSelect.this, Quiz.class);
-		intent.putExtra("question count", NoOfQns);
-		intent.putExtra("level", LevelValue);
+		//Intent intent = new Intent(LevelSelect.this, Quiz.class);
+		//intent.putExtra("question count", NoOfQns);
+		//intent.putExtra("level", LevelValue);
 
-		LevelSelect.this.startActivity(intent);
+		//LevelSelect.this.startActivity(intent);
 	}
 
 	// On + button click
@@ -143,6 +145,13 @@ public class LevelSelect extends Activity{
 		if (LevelValue > 1)
 			LevelValue--;
 		levelView.setText(LevelValue);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.level_select, menu);
+		return true;
 	}
 
 }

@@ -7,24 +7,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.flurry.android.FlurryAgent;
-import com.teamkarbon.android.binaryextras.util.SystemUiHider;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- * 
- * @see SystemUiHider
- */
 public class Quiz extends Activity {
+
 	public Intent currentIntent;
 	
 	public double givenValue;//In decimal, of course
@@ -40,6 +34,9 @@ public class Quiz extends Activity {
 	public int currentQn = 0;
 	public int score = 0;
 	
+	/** Not too sure, but declared it anyway*/
+	int timeTaken;
+	
 	public boolean binToDec, decToBin;
 	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
 	public boolean QuestionMode;			  //Binary to decimal.
@@ -52,7 +49,8 @@ public class Quiz extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		setContentView(R.layout.activity_quiz);
+		
 		setContentView(R.layout.activity_quiz);
 		instructionView = (TextView) findViewById(R.id.Instructions);
 		scoreView = (TextView) findViewById(R.id.ScoreBox);
@@ -73,7 +71,7 @@ public class Quiz extends Activity {
 		
 		stopwatch = new Stopwatch();
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -238,7 +236,7 @@ public class Quiz extends Activity {
 		}
 		else//Time to get an answer!
 		{
-			int timeTaken = stopwatch.StopAndGet();
+			//int timeTaken = stopwatch.StopAndGet();
 			
 			if(currentQn == noOfQns)//Last question.. display stats after this
 			{
@@ -477,4 +475,12 @@ public class Quiz extends Activity {
 			return tempElasped;
 		}
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.quiz, menu);
+		return true;
+	}
+
 }
