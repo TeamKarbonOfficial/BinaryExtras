@@ -35,10 +35,12 @@
         </activity>
         <activity
             android:name="com.teamkarbon.android.binaryextras.LevelSelect"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:label="@string/title_activity_level_select" >
         </activity>
         <activity
             android:name="com.teamkarbon.android.binaryextras.Quiz"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:label="@string/title_activity_quiz" >
         </activity>
     </application>
