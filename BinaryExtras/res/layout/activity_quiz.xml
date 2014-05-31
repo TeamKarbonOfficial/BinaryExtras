@@ -49,7 +49,13 @@
             android:textColorHint="#33aa33"
             android:textSize="30sp"
             android:onClick="derp_click" />
+        
+        <FrameLayout
+        	android:id="@+id/banner"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentBottom="true"
+ 			android:layout_alignParentLeft="true"/>
 
     </LinearLayout>
-
 </FrameLayout>

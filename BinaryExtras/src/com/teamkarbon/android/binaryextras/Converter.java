@@ -3,15 +3,23 @@ package com.teamkarbon.android.binaryextras;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import com.flurry.android.FlurryAdType;
+import com.flurry.android.FlurryAds;
+import com.flurry.android.FlurryAdSize;
 import com.flurry.android.FlurryAgent;
+import com.flurry.android.FlurryAdListener;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class Converter extends Activity {
+public class Converter extends Activity implements FlurryAdListener {
+	
+	FrameLayout mBanner;
+    private String adSpace="MediatedBannerBottom";
 
 	public EditText inputbox;
 	public TextView outputbox;
@@ -20,9 +28,9 @@ public class Converter extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_converter);
-		// TODO Auto-generated method stub
+		
+		 mBanner = (FrameLayout)findViewById(R.id.banner);
 		
 		inputbox = (EditText) findViewById(R.id.InputText);
 		outputbox = (TextView) findViewById(R.id.OutputText);
@@ -32,12 +40,25 @@ public class Converter extends Activity {
 	public void onStart() {
 		super.onStart();
 		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+		FlurryAds.setAdListener(this);
+		FlurryAds.fetchAd(this, adSpace, mBanner, FlurryAdSize.BANNER_BOTTOM);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
+        FlurryAds.removeAd(this, adSpace, mBanner);
+        FlurryAgent.onEndSession(this);
+	}
+	
+	@Override 
+    public void spaceDidReceiveAd(String adSpace) {
+        FlurryAds.displayAd(this, adSpace, mBanner);
+    }
+    
+	@Override
+	public boolean shouldDisplayAd(String adSpace, FlurryAdType arg1) {
+		return true;
 	}
 
 	public void ToBinary_Click(View view) {
@@ -237,5 +258,53 @@ public class Converter extends Activity {
 			this.powerOfTwo = powerOfTwo;
 			this.Value = BinaryValue;
 		}
+	}
+
+	@Override
+	public void onAdClicked(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdClosed(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdOpened(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onApplicationExit(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRenderFailed(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRendered(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onVideoCompleted(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void spaceDidFailToReceiveAd(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

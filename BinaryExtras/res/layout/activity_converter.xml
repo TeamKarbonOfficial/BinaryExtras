@@ -66,5 +66,11 @@
         android:text="@string/OutputText"
         android:textColor="#55dd55"
         android:textSize="30sp" />
+
+    <FrameLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </FrameLayout>
     
 </LinearLayout>

@@ -1,12 +1,17 @@
 package com.teamkarbon.android.binaryextras;
 
+import com.flurry.android.FlurryAdType;
 import com.flurry.android.FlurryAgent;
+import com.flurry.android.FlurryAds;
+import com.flurry.android.FlurryAdSize;
+import com.flurry.android.FlurryAdListener;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.FrameLayout;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,7 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.*;
 
-public class LevelSelect extends Activity {
+public class LevelSelect extends Activity implements FlurryAdListener {
 
 	// Declare
 	Spinner spinner;
@@ -25,6 +30,9 @@ public class LevelSelect extends Activity {
 	RadioGroup radioGroup1;
 	RadioButton radioBD;
 	RadioButton radioDB;
+	
+	FrameLayout mBanner;
+    private String adSpace="MediatedBannerBottom";
 
 	ArrayAdapter<CharSequence> adapter;
 
@@ -34,6 +42,8 @@ public class LevelSelect extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mBanner = (FrameLayout)findViewById(R.id.banner);
+		
 		setContentView(R.layout.activity_level_select);
 
 		// Initialize
@@ -116,12 +126,25 @@ public class LevelSelect extends Activity {
 	public void onStart() {
 		super.onStart();
 		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+		FlurryAds.setAdListener(this);
+        FlurryAds.fetchAd(this, adSpace, mBanner, FlurryAdSize.BANNER_BOTTOM);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
+		FlurryAds.removeAd(this, adSpace, mBanner);
+        FlurryAgent.onEndSession(this);
+	}
+	
+	@Override 
+    public void spaceDidReceiveAd(String adSpace) {
+        FlurryAds.displayAd(this, adSpace, mBanner);
+	}
+
+	@Override
+	public boolean shouldDisplayAd(String adSpace, FlurryAdType arg1) {
+		return true;
 	}
 
 	// On Start! button click
@@ -152,6 +175,54 @@ public class LevelSelect extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.level_select, menu);
 		return true;
+	}
+
+	@Override
+	public void onAdClicked(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdClosed(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdOpened(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onApplicationExit(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRenderFailed(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRendered(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onVideoCompleted(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void spaceDidFailToReceiveAd(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

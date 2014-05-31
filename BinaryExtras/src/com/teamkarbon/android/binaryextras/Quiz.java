@@ -6,7 +6,12 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.flurry.android.FlurryAdType;
 import com.flurry.android.FlurryAgent;
+import com.flurry.android.FlurryAds;
+import com.flurry.android.FlurryAdSize;
+import com.flurry.android.FlurryAdListener;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +20,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class Quiz extends Activity {
+public class Quiz extends Activity implements FlurryAdListener {
 
+	FrameLayout mBanner;
+    private String adSpace="MediatedBannerBottom";
+	
 	public Intent currentIntent;
 	
 	public double givenValue;//In decimal, of course
@@ -49,6 +58,8 @@ public class Quiz extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mBanner = (FrameLayout)findViewById(R.id.banner);
+		
 		setContentView(R.layout.activity_quiz);
 		
 		setContentView(R.layout.activity_quiz);
@@ -76,14 +87,27 @@ public class Quiz extends Activity {
 	public void onStart() {
 		super.onStart();
 		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+		FlurryAds.setAdListener(this);
+        FlurryAds.fetchAd(this, adSpace, mBanner, FlurryAdSize.BANNER_BOTTOM);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		FlurryAgent.onEndSession(this);
+        FlurryAds.removeAd(this, adSpace, mBanner);
+        FlurryAgent.onEndSession(this);
 	}
 	
+	@Override 
+    public void spaceDidReceiveAd(String adSpace) {
+        FlurryAds.displayAd(this, adSpace, mBanner);
+	}
+
+	@Override
+	public boolean shouldDisplayAd(String adSpace, FlurryAdType arg1) {
+		return true;
+	}
+
 	public void derp_click(View view)
 	{
 		double properAnswer;
@@ -481,6 +505,54 @@ public class Quiz extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.quiz, menu);
 		return true;
+	}
+
+	@Override
+	public void onAdClicked(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdClosed(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdOpened(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onApplicationExit(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRenderFailed(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRendered(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onVideoCompleted(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void spaceDidFailToReceiveAd(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
