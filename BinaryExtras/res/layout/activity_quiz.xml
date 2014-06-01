@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.86"
-            android:text="Choose a level from 1 to 9 below and hit the button."
+            android:text="Hi."
             android:textColor="#66cc66"
             android:textSize="30sp" />
 
