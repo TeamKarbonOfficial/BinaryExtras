@@ -43,8 +43,7 @@
             android:background="#448877"
             android:text="+"
             android:textColor="#44cc55"
-            android:textSize="30sp"
-            android:onClick="plus_click" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/SubLevelButton"
@@ -55,16 +54,15 @@
             android:background="#448877"
             android:text="-"
             android:textColor="#44cc55"
-            android:textSize="30sp" 
-            android:onClick="sub_click"/>
+            android:textSize="30sp" />
     </LinearLayout>
 
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#44cc44"
-        android:background="#447744" />
+        android:background="#447744"
+        android:textColor="#44cc44" />
     
     <RadioGroup
         android:id="@+id/radioGroup1"

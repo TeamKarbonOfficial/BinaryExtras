@@ -19,25 +19,26 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.*;
+import android.view.View.OnClickListener;
 
 public class LevelSelect extends Activity implements FlurryAdListener {
 
 	// Declare
 	Spinner spinner;
-	TextView levelView;
-	Button plus, minus;
+	TextView LevelView;
+	Button AddLevelButton, SubLevelButton;
 	RadioGroup radioGroup1;
-	RadioButton radioBD;
-	RadioButton radioDB;
+	RadioButton radioBD, radioDB;
 	
 	FrameLayout mBanner;
     private String adSpace="MediatedBannerBottom";
 
 	ArrayAdapter<CharSequence> adapter;
 
-	public int LevelValue = 1;
-	public int NoOfQns = 0;
+	int LevelValue = 1;
+	int NoOfQns = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,47 +48,53 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		setContentView(R.layout.activity_level_select);
 
 		// Initialize
-		levelView = (TextView) findViewById(R.id.LevelView);
+		AddLevelButton = (Button) findViewById(R.id.AddLevelButton);
+		SubLevelButton = (Button) findViewById(R.id.SubLevelButton);
+		LevelView = (TextView) findViewById(R.id.LevelView);
 		radioGroup1 = (RadioGroup) findViewById(R.id.radioGroup1);
 		radioBD = (RadioButton) findViewById(R.id.radioBD);
 		radioDB = (RadioButton) findViewById(R.id.radioDB);
 		spinner = (Spinner) findViewById(R.id.spinner1);
 
-		// FIXME i need help...
 		adapter = ArrayAdapter.createFromResource(this, R.array.noOfQnsSpinnerList, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);// I hope this works...
+		spinner.setAdapter(adapter);
 
+		//FIXME Got to clean up this code.
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int position, long id) {
 				switch (position) {
 				case 0:
-					NoOfQns = 5;
+					//Nothing, for instructions
+					NoOfQns = 0;
 					break;
 				case 1:
-					NoOfQns = 10;
+					NoOfQns = 5;
 					break;
 				case 2:
-					NoOfQns = 20;
+					NoOfQns = 10;
 					break;
 				case 3:
-					NoOfQns = 30;
+					NoOfQns = 20;
 					break;
 				case 4:
-					NoOfQns = 40;
+					NoOfQns = 30;
 					break;
 				case 5:
-					NoOfQns = 50;
+					NoOfQns = 40;
 					break;
 				case 6:
-					NoOfQns = 100;
+					NoOfQns = 50;
 					break;
 				case 7:
-					NoOfQns = 500;
+					NoOfQns = 100;
 					break;
 				case 8:
+					NoOfQns = 500;
+					break;
+				case 9:
 					NoOfQns = 1000;
 					break;
 				}
@@ -100,7 +107,8 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		});
 
 		addListenerOnradioGroup1();
-
+		addListenerOnButtonAddLevelButton();
+		addListenerOnButtonSubLevelButton();
 	}
 
 	// RadioGroup Listener
@@ -122,6 +130,36 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		});
 	}
 
+	// AddLevelButton Listener
+	private void addListenerOnButtonAddLevelButton() {
+		AddLevelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (LevelValue < 9) {
+					LevelValue++;
+				} else {
+					Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+				}
+				LevelView.setText(String.valueOf(LevelValue));
+			}
+		});
+	}
+	
+	// SubLevelButton Listener
+	private void addListenerOnButtonSubLevelButton() {
+		SubLevelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (LevelValue > 1) {
+					LevelValue--;
+				} else {
+					Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+				}
+				LevelView.setText(String.valueOf(LevelValue));
+			}
+		});
+	}
+	
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -154,20 +192,6 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		//intent.putExtra("level", LevelValue);
 
 		//LevelSelect.this.startActivity(intent);
-	}
-
-	// On + button click
-	public void add_click(View view) {
-		if (LevelValue < 9)
-			LevelValue++;
-		levelView.setText(LevelValue);
-	}
-
-	// On - button click
-	public void sub_click(View view) {
-		if (LevelValue > 1)
-			LevelValue--;
-		levelView.setText(LevelValue);
 	}
 
 	@Override

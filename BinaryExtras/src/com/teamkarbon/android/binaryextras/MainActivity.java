@@ -65,7 +65,6 @@ public class MainActivity extends Activity implements FlurryAdListener {
 		ButtonQuiz.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(getApplicationContext(), "[DEBUG]", Toast.LENGTH_SHORT).show();
 				startActivity(levelintent);
 			}
 		});
