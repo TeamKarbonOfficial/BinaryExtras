@@ -187,11 +187,11 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 
 	// On Start! button click
 	public void start_click(View view) {
-		//Intent intent = new Intent(LevelSelect.this, Quiz.class);
-		//intent.putExtra("question count", NoOfQns);
-		//intent.putExtra("level", LevelValue);
+		Intent intent = new Intent(LevelSelect.this, Quiz.class);
+		intent.putExtra("question count", NoOfQns);
+		intent.putExtra("level", LevelValue);
 
-		//LevelSelect.this.startActivity(intent);
+		LevelSelect.this.startActivity(intent);
 	}
 
 	@Override
