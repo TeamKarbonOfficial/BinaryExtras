@@ -103,7 +103,7 @@
         android:text="Start!"
         android:textColor="#44cc44"
         android:textSize="30sp"
-        android:onClick="continue_click" />
+        android:onClick="start_click" />
     
     <FrameLayout
         android:id="@+id/banner"
