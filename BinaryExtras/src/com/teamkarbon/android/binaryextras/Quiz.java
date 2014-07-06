@@ -58,11 +58,9 @@ public class Quiz extends Activity implements FlurryAdListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_quiz);
+		
 		mBanner = (FrameLayout)findViewById(R.id.banner);
-		
-		setContentView(R.layout.activity_quiz);
-		
-		setContentView(R.layout.activity_quiz);
 		instructionView = (TextView) findViewById(R.id.Instructions);
 		scoreView = (TextView) findViewById(R.id.ScoreBox);
 		enterButton = (Button) findViewById(R.id.THEbutton);
@@ -80,7 +78,7 @@ public class Quiz extends Activity implements FlurryAdListener {
 		
 		QuestionMode = true;
 		
-		stopwatch = new Stopwatch();
+		//stopwatch = new Stopwatch();
 	}
 
 	@Override
