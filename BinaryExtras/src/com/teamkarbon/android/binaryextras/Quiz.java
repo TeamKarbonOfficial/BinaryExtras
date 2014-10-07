@@ -200,7 +200,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                 }
             } else if (binToDec) {
                 IsBinToDecUsed = true;
-                if (SmallestPowerOfTwo == 1)
+                if (SmallestPowerOfTwo == 0)
                     instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
                 else {
                     double givenValue = 0;
@@ -211,11 +211,13 @@ public class Quiz extends Activity implements FlurryAdListener {
                     //FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-                    instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
+                    instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal? " +
+                            "Key in your answer and tap the derpy button.");
                 }
             }
             QuestionMode = false;
-        } else//Time to get an answer!
+        }
+        else //Time to get an answer!
         {
             //int timeTaken = stopwatch.StopAndGet();
 
