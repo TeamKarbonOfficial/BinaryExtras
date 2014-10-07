@@ -25,36 +25,42 @@ import static android.util.Log.i;
 
 public class Quiz extends Activity implements FlurryAdListener {
 
-    FrameLayout mBanner;
-    private String adSpace = "MediatedBannerBottom";
-
     public Intent currentIntent;
-
     public double givenValue;//In decimal, of course
-
     public TextView instructionView, scoreView;
     public Button enterButton;
     public EditText input;
-
     public int level = 0;
     public int noOfQns = 0;
     public int noOfQnsCorrect = 0;
     public int currentQn = 0;
     public int score = 0;
-
     /**
      * Not too sure, but declared it anyway
      */
     //int timeTaken; replaced with
     public long prevNanoSeconds;
-
     public String ModeString;
     public boolean binToDec, decToBin;
     public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
     public boolean QuestionMode;              //Binary to decimal.
     public boolean GameOver;
-
+    public String CorrectAnswer;
     public Random rndGen;
+    FrameLayout mBanner;
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+            return false;
+        }
+    };
+    private String adSpace = "MediatedBannerBottom";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +81,12 @@ public class Quiz extends Activity implements FlurryAdListener {
         ModeString = currentIntent.getStringExtra("mode");
         i("MODELOG", ModeString);
 
-        if(ModeString.equalsIgnoreCase("bin to dec"))
-        {
+        if (ModeString.equalsIgnoreCase("bin to dec")) {
             ConvertFromBinaryToDecimal = true;
             binToDec = true;
             decToBin = false;
         }
-        if (ModeString.equalsIgnoreCase("Dec to Bin"))
-        {
+        if (ModeString.equalsIgnoreCase("Dec to Bin")) {
             ConvertFromBinaryToDecimal = false;
             decToBin = true;
             binToDec = false;
@@ -135,7 +139,6 @@ public class Quiz extends Activity implements FlurryAdListener {
             double Min = 0, Max = 0;
             int SmallestPowerOfTwo = 0;
 
-
             currentQn++;
             switch (level) {
                 case 1:
@@ -185,32 +188,37 @@ public class Quiz extends Activity implements FlurryAdListener {
                     break;
             }
             if (decToBin) {
-                if (SmallestPowerOfTwo == 0)
-                    instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary? Key in your answer and " +
+                if (SmallestPowerOfTwo == 0) {
+                    givenValue = rndGen.nextInt((int) Max);
+                    CorrectAnswer = String.valueOf(ToBinary(givenValue, 90));
+                    instructionView.setText("What is " + givenValue + " in binary? Key in your answer and " +
                             "tap the derpy button.");
-                else {
+                } else {
                     givenValue = 0;
 
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-                    instructionView.setText("What is " + givenValue + " in binary? " +
+                    CorrectAnswer = String.valueOf(givenValue);
+                    instructionView.setText("What is " + CorrectAnswer + " in binary? " +
                             "Key in your answer and tap the derpy button.");
                 }
             } else if (binToDec) {
                 if (SmallestPowerOfTwo == 0)
-                    instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
-                else {
-                    givenValue = 0;
+                    CorrectAnswer = String.valueOf(rndGen.nextInt((int) Max));
+                givenValue = Double.valueOf(CorrectAnswer);
+                instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
+            } else {
+                givenValue = 0;
 
-                    //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-                    givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-                    instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal? " +
-                            "Key in your answer and tap the derpy button.");
-                }
+                //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+                givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+                CorrectAnswer = ToBinary(givenValue, 90);
+                instructionView.setText("What is " + CorrectAnswer + " in decimal? " +
+                        "Key in your answer and tap the derpy button.");
             }
+
             QuestionMode = false;
-        }
-        else //Time to get an answer!
+        } else //Time to get an answer!
         {
             //int timeTaken = stopwatch.StopAndGet();
 
@@ -228,26 +236,21 @@ public class Quiz extends Activity implements FlurryAdListener {
                     QuestionMode = false;
 
                 }
-            } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(String.valueOf(givenValue)))
-                    || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(ToBinary(givenValue, 7)))) {
+            } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))
+                    || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))) {
                 noOfQnsCorrect++;
-                currentQn ++;
+                currentQn++;
                 instructionView.setText("Correct! Click the button to continue to question " + currentQn);
+
+                i("INPUTLOG", input.getText().toString().replaceAll("\\s", ""));
 
                 QuestionMode = true;
 
                 score += (1000 * level) / (GetTimeTakenNano() / Math.pow(10, 9));
                 scoreView.setText("Score: " + score);
             } else {
-                currentQn ++;
-                String tempCorrAnswer;
-                if (IsBinToDecUsed)
-                {
-                    tempCorrAnswer = String.valueOf(givenValue);
-                } else {
-                    tempCorrAnswer = ToBinary(givenValue, 7);
-                }
-                instructionView.setText("Wrong! Correct answer is " + tempCorrAnswer + ". Click the button to continue to question " + currentQn);
+                currentQn++;
+                instructionView.setText("Wrong! Correct answer is " + CorrectAnswer + ". Click the button to continue to question " + currentQn);
                 QuestionMode = true;
             }
 
@@ -259,20 +262,6 @@ public class Quiz extends Activity implements FlurryAdListener {
         super.onPostCreate(savedInstanceState);
 
     }
-
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-
-            return false;
-        }
-    };
-
 
     public String ToBinary(double decimalvalue, int AccuracyInDP)//I shall make my own for the fun of it.
     {
@@ -289,7 +278,7 @@ public class Quiz extends Activity implements FlurryAdListener {
 
         //startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
         //to start checking from 1. This value is usually zero or less... (2^0 = 1)
-		
+
 		/*
 		 * How to convert:
 		 * Step 0: Make sure that decimalvalue != 0. Seriously.
@@ -389,6 +378,65 @@ public class Quiz extends Activity implements FlurryAdListener {
         return temporaryBinaryAsString;
     }
 
+    public long GetTimeTakenNano() {
+        return System.nanoTime() - prevNanoSeconds;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.quiz, menu);
+        return true;
+    }
+
+    @Override
+    public void onAdClicked(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onAdClosed(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onAdOpened(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onApplicationExit(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onRenderFailed(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onRendered(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onVideoCompleted(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void spaceDidFailToReceiveAd(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
     public class BinaryDigit {
         public int powerOfTwo;//Where is the digit located?
         public int Value;//One or Zero
@@ -398,64 +446,5 @@ public class Quiz extends Activity implements FlurryAdListener {
             this.Value = BinaryValue;
         }
     }
-
-    public long GetTimeTakenNano() {
-        return System.nanoTime() - prevNanoSeconds;
-    }
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.quiz, menu);
-		return true;
-	}
-
-	@Override
-	public void onAdClicked(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAdClosed(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAdOpened(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onApplicationExit(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRenderFailed(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRendered(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVideoCompleted(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void spaceDidFailToReceiveAd(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
