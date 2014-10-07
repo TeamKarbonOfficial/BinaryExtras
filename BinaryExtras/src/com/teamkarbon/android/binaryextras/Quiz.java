@@ -188,11 +188,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                             "tap the derpy button.");
                 else {
                     double givenValue = 0;
-                    double SmallestIntervalUsed = 0;
 
-                    SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
-
-                    //FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
                     instructionView.setText("What is " + givenValue + " in binary? " +
@@ -204,11 +200,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                     instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
                 else {
                     double givenValue = 0;
-                    double SmallestIntervalUsed = 0;
 
-                    SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
-
-                    //FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
                     instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal? " +
