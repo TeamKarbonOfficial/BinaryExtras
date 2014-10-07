@@ -66,7 +66,7 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 
         Mode = "Bin to Dec";
 
-		//FIXME Got to clean up this code.
+		//FIXME Got to clean up this code. (Nah)
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -130,6 +130,7 @@ public class LevelSelect extends Activity implements FlurryAdListener {
                     Mode = "Dec to Bin";
 				} else {
 					// If this happens, there is some serious error :P Lolololol
+                    //TODO: Delete this, maybe...?
 				}
 
 			}

@@ -342,10 +342,7 @@ public class Quiz extends Activity implements FlurryAdListener {
         int indexOfZeroPower;
         //Run the for loop to fill in the 1s
         for (BinaryDigit bd : ListOfBinaryDigits) {
-            if (bd.powerOfTwo > 0 || bd.powerOfTwo == 0)//Check if before or after decimal point
-                MantissaMode = false;
-            else
-                MantissaMode = true;
+            MantissaMode = !(bd.powerOfTwo > 0 || bd.powerOfTwo == 0);
 
             if (bd.Value == 1)//Which should be always true...
             {
