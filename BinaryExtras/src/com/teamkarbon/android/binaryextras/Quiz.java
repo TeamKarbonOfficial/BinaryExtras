@@ -1,17 +1,5 @@
 package com.teamkarbon.android.binaryextras;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.flurry.android.FlurryAdType;
-import com.flurry.android.FlurryAgent;
-import com.flurry.android.FlurryAds;
-import com.flurry.android.FlurryAdSize;
-import com.flurry.android.FlurryAdListener;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,306 +11,274 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAdListener;
+import com.flurry.android.FlurryAdSize;
+import com.flurry.android.FlurryAdType;
+import com.flurry.android.FlurryAds;
+import com.flurry.android.FlurryAgent;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Quiz extends Activity implements FlurryAdListener {
 
-	FrameLayout mBanner;
-    private String adSpace="MediatedBannerBottom";
-	
-	public Intent currentIntent;
-	
-	public double givenValue;//In decimal, of course
-	public String instructions;
-	
-	public TextView instructionView, scoreView;
-	public Button enterButton;
-	public EditText input;
-	
-	public int level = 0;
-	public int noOfQns = 0;
-	public int noOfQnsCorrect = 0;
-	public int currentQn = 0;
-	public int score = 0;
-	
-	/** Not too sure, but declared it anyway*/
-	int timeTaken;
-	
-	public boolean binToDec, decToBin;
-	public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
-	public boolean QuestionMode;			  //Binary to decimal.
-	public boolean GameOver;
-	
-	public Random rndGen;
-	
-	public Stopwatch stopwatch;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_quiz);
-		
-		mBanner = (FrameLayout)findViewById(R.id.banner);
-		instructionView = (TextView) findViewById(R.id.Instructions);
-		scoreView = (TextView) findViewById(R.id.ScoreBox);
-		enterButton = (Button) findViewById(R.id.THEbutton);
-		input = (EditText) findViewById(R.id.Input);
-		GameOver = false;
-		
-		currentIntent = getIntent();
-		level = currentIntent.getIntExtra("level", 1);
-		noOfQns = currentIntent.getIntExtra("question count", 5);
-		
-		instructionView.setText("Difficulty Level: " + level + " | Total Questions: " + noOfQns
-				+ ". Press the derpy button to start!");
-		
-		rndGen = new Random();
-		
-		QuestionMode = true;
-		
-		//stopwatch = new Stopwatch();
-	}
+    FrameLayout mBanner;
+    private String adSpace = "MediatedBannerBottom";
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
-		FlurryAds.setAdListener(this);
+    public Intent currentIntent;
+
+    public double givenValue;//In decimal, of course
+    public String instructions;
+
+    public TextView instructionView, scoreView;
+    public Button enterButton;
+    public EditText input;
+
+    public int level = 0;
+    public int noOfQns = 0;
+    public int noOfQnsCorrect = 0;
+    public int currentQn = 0;
+    public int score = 0;
+
+    /**
+     * Not too sure, but declared it anyway
+     */
+    //int timeTaken; replaced with
+    public long prevNanoSeconds;
+
+    public boolean binToDec, decToBin;
+    public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
+    public boolean QuestionMode;              //Binary to decimal.
+    public boolean GameOver;
+
+    public Random rndGen;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quiz);
+
+        mBanner = (FrameLayout) findViewById(R.id.banner);
+        instructionView = (TextView) findViewById(R.id.Instructions);
+        scoreView = (TextView) findViewById(R.id.ScoreBox);
+        enterButton = (Button) findViewById(R.id.THEbutton);
+        input = (EditText) findViewById(R.id.Input);
+        GameOver = false;
+
+        currentIntent = getIntent();
+        level = currentIntent.getIntExtra("level", 1);
+        noOfQns = currentIntent.getIntExtra("question count", 5);
+        if(currentIntent.getStringExtra("mode") == "Bin to Dec")
+        {
+            ConvertFromBinaryToDecimal = true;
+            binToDec = true;
+            decToBin = false;
+        }
+        else if (currentIntent.getStringExtra("mode") == "Dec to Bin")
+        {
+            ConvertFromBinaryToDecimal = false;
+            decToBin = true;
+            binToDec = false;
+        }
+
+        instructionView.setText("Difficulty Level: " + level + " | Total Questions: " + noOfQns
+                + " | Mode: " + currentIntent.getStringExtra("mode") + "Press the derpy button to start!");
+
+
+        rndGen = new Random();
+
+        QuestionMode = true;
+
+        //stopwatch = new Stopwatch();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(this, "VPS2QCRRB3MQ8RPTD3SB");
+        FlurryAds.setAdListener(this);
         FlurryAds.fetchAd(this, adSpace, mBanner, FlurryAdSize.BANNER_BOTTOM);
-	}
+    }
 
-	@Override
-	public void onStop() {
-		super.onStop();
+    @Override
+    public void onStop() {
+        super.onStop();
         FlurryAds.removeAd(this, adSpace, mBanner);
         FlurryAgent.onEndSession(this);
-	}
-	
-	@Override 
+    }
+
+    @Override
     public void spaceDidReceiveAd(String adSpace) {
         FlurryAds.displayAd(this, adSpace, mBanner);
-	}
+    }
 
-	@Override
-	public boolean shouldDisplayAd(String adSpace, FlurryAdType arg1) {
-		return true;
-	}
+    @Override
+    public boolean shouldDisplayAd(String adSpace, FlurryAdType arg1) {
+        return true;
+    }
 
-	public void derp_click(View view)
-	{
-		double properAnswer;
-		boolean IsBinToDecUsed = false;
-		if(GameOver)
-		{
-			Intent tempintent = new Intent(Quiz.this, MainActivity.class);
-			Quiz.this.startActivity(tempintent);
-		}
-		if(QuestionMode)//Time to give a question!
-		{
-			double Min = 0, Max = 0; int SmallestPowerOfTwo = 0;
-			boolean WithDecimal;
-			
-			double ValueToConvert;
-			
-			currentQn ++;
-			switch(level)
-			{
-			case 1:
-				Min = Math.pow(2, 0);
-				Max = Math.pow(2, 3);
-				SmallestPowerOfTwo = 0;
-				break;
-			case 2:
-				Min = Math.pow(2, 0);
-				Max = Math.pow(2, 5);
-				SmallestPowerOfTwo = 0;
-				break;
-			case 3:
-				Min = Math.pow(2, 0);
-				Max = Math.pow(2, 7);
-				SmallestPowerOfTwo = 0;
-				break;
-			case 4:
-				Min = Math.pow(2, 0);
-				Max = Math.pow(2, 8);
-				SmallestPowerOfTwo = 0;
-				break;
-			case 5:
-				Min = Math.pow(2, -1);
-				Max = Math.pow(2, 8);
-				SmallestPowerOfTwo = -1;
-				break;
-			case 6:
-				Min = Math.pow(2, -1);
-				Max = Math.pow(2, 9);
-				SmallestPowerOfTwo = -1;
-				break;
-			case 7:
-				Min = Math.pow(2, -2);
-				Max = Math.pow(2, 9);
-				SmallestPowerOfTwo = -2;
-				break;
-			case 8:
-				Min = Math.pow(2, -3);
-				Max = Math.pow(2, 10);
-				SmallestPowerOfTwo = -3;
-				break;
-			case 9:
-				Min = Math.pow(2, -5);
-				Max = Math.pow(2, 20);
-				SmallestPowerOfTwo = -5;
-				break;
-			}
-			if(binToDec && decToBin)
-			{
-				if(rndGen.nextInt(1) == 0)//binToDec type
-				{
-					IsBinToDecUsed = true;
-					if(SmallestPowerOfTwo == 1)
-						instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
-					else
-					{
-						double givenValue = 0;
-						double SmallestIntervalUsed = 0;
-						
-						SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
-						
-						//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
-						//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-						givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-						instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
-					}
-					
-					stopwatch.Start();
-				}
-				else//decToBin type
-				{
-					IsBinToDecUsed = false;
-					if(SmallestPowerOfTwo == 1)
-						instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary?");
-					else
-					{
-						double givenValue = 0;
-						double SmallestIntervalUsed = 0;
-						
-						SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
-						
-						//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
-						//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-						givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-						instructionView.setText("What is " + givenValue + " in binary?");
-					}
-					
-					stopwatch.Start();
-				}
-			}
-			else if(decToBin)
-			{
-				IsBinToDecUsed = false;
-				if(SmallestPowerOfTwo == 1)
-					instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary?");
-				else
-				{
-					double givenValue = 0;
-					double SmallestIntervalUsed = 0;
-					
-					SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
-					
-					//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
-					//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-					givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-					instructionView.setText("What is " + givenValue + " in binary?");
-				}
-				
-				stopwatch.Start();
-			}
-			else if(binToDec)
-			{
-				IsBinToDecUsed = true;
-				if(SmallestPowerOfTwo == 1)
-					instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
-				else
-				{
-					double givenValue = 0;
-					double SmallestIntervalUsed = 0;
-					
-					SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
-					
-					//FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
-					//NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
-					givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
-					instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
-				}
-				
-				stopwatch.Start();
-			}
-			QuestionMode = false;
-		}
-		else//Time to get an answer!
-		{
-			//int timeTaken = stopwatch.StopAndGet();
-			
-			if(currentQn == noOfQns)//Last question.. display stats after this
-			{
-				if( (IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
-					 || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7)))
-				{
-					score += (1000 * level) / (timeTaken / 1000);
-					
-					instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
-							noOfQns + " questions right. Press the derpy button to go back.");
-					GameOver = true;
-					QuestionMode = false;
-					
-				}
-			}
-			else if( (IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
-				 || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7)))
-			{
-				noOfQnsCorrect ++;
-				instructionView.setText("Correct! Click the button to continue to question!" + currentQn);
+    public void derp_click(View view) {
+        double properAnswer;
+        boolean IsBinToDecUsed = ConvertFromBinaryToDecimal;
+        if (GameOver) {
+            Intent tempintent = new Intent(Quiz.this, MainActivity.class);
+            Quiz.this.startActivity(tempintent);
+        }
+        if (QuestionMode)//Time to give a question!
+        {
+            double Min = 0, Max = 0;
+            int SmallestPowerOfTwo = 0;
+            boolean WithDecimal;
 
-				QuestionMode = true;
-				
-				score += (1000 * level) / (timeTaken / 1000);
-			}
-			
-		}
-	}
+            double ValueToConvert;
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		
-	}
+            currentQn++;
+            switch (level) {
+                case 1:
+                    Min = Math.pow(2, 0);
+                    Max = Math.pow(2, 3);
+                    SmallestPowerOfTwo = 0;
+                    break;
+                case 2:
+                    Min = Math.pow(2, 0);
+                    Max = Math.pow(2, 5);
+                    SmallestPowerOfTwo = 0;
+                    break;
+                case 3:
+                    Min = Math.pow(2, 0);
+                    Max = Math.pow(2, 7);
+                    SmallestPowerOfTwo = 0;
+                    break;
+                case 4:
+                    Min = Math.pow(2, 0);
+                    Max = Math.pow(2, 8);
+                    SmallestPowerOfTwo = 0;
+                    break;
+                case 5:
+                    Min = Math.pow(2, -1);
+                    Max = Math.pow(2, 8);
+                    SmallestPowerOfTwo = -1;
+                    break;
+                case 6:
+                    Min = Math.pow(2, -1);
+                    Max = Math.pow(2, 9);
+                    SmallestPowerOfTwo = -1;
+                    break;
+                case 7:
+                    Min = Math.pow(2, -2);
+                    Max = Math.pow(2, 9);
+                    SmallestPowerOfTwo = -2;
+                    break;
+                case 8:
+                    Min = Math.pow(2, -3);
+                    Max = Math.pow(2, 10);
+                    SmallestPowerOfTwo = -3;
+                    break;
+                case 9:
+                    Min = Math.pow(2, -5);
+                    Max = Math.pow(2, 20);
+                    SmallestPowerOfTwo = -5;
+                    break;
+            }
+            if (decToBin) {
+                IsBinToDecUsed = false;
+                if (SmallestPowerOfTwo == 0)
+                    instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary? Key in your answer and " +
+                            "tap the derpy button.");
+                else {
+                    double givenValue = 0;
+                    double SmallestIntervalUsed = 0;
 
-	/**
-	 * Touch listener to use for in-layout UI controls to delay hiding the
-	 * system UI. This is to prevent the jarring behavior of controls going away
-	 * while interacting with activity UI.
-	 */
-	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-		@Override
-		public boolean onTouch(View view, MotionEvent motionEvent) {
-			
-			return false;
-		}
-	};
-	
-	
-	public String ToBinary(double decimalvalue, int AccuracyInDP)//I shall make my own for the fun of it.
-	{
-		int maxpoweroftwo = -AccuracyInDP;//Gg. GG. (This var is a temporary store, btw)
-		double decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
-		int NumberOfDecimalPoints = 0;
-		int HighestPowerOfTwo = 0;
-		boolean FirstRun = true;
-		ArrayList <BinaryDigit> ListOfBinaryDigits = new ArrayList<BinaryDigit>();
-		String temporaryBinaryAsString = "";
-		
-		//Make sure that startingPowerOfTwo is NOT above zero!!
-		if(AccuracyInDP < 0) AccuracyInDP = 0;
-		
-		//startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
-		//to start checking from 1. This value is usually zero or less... (2^0 = 1)
+                    SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
+
+                    //FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
+                    //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+                    givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+                    instructionView.setText("What is " + givenValue + " in binary? " +
+                            "Key in your answer and tap the derpy button.");
+                }
+            } else if (binToDec) {
+                IsBinToDecUsed = true;
+                if (SmallestPowerOfTwo == 1)
+                    instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
+                else {
+                    double givenValue = 0;
+                    double SmallestIntervalUsed = 0;
+
+                    SmallestIntervalUsed = Math.pow(2, -1 * rndGen.nextInt(0 - SmallestPowerOfTwo));
+
+                    //FIXME CREATE ALGORITHM TO MAKE A CORRECTLY RND GEN NUMBER.
+                    //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
+                    givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
+                    instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
+                }
+            }
+            QuestionMode = false;
+        } else//Time to get an answer!
+        {
+            //int timeTaken = stopwatch.StopAndGet();
+
+            if (currentQn == noOfQns)//Last question.. display stats after this
+            {
+                if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
+                        || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7))) {
+                    score += (1000 * level) / ((System.nanoTime() - prevNanoSeconds) / Math.pow(10, 9));
+
+                    instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
+                            noOfQns + " questions right. Press the derpy button to go back.");
+                    GameOver = true;
+                    QuestionMode = false;
+
+                }
+            } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
+                    || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7))) {
+                noOfQnsCorrect++;
+                instructionView.setText("Correct! Click the button to continue to question!" + currentQn);
+
+                QuestionMode = true;
+
+                score += (1000 * level) / (GetTimeTakenNano() / Math.pow(10,9));
+            }
+
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+    }
+
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+            return false;
+        }
+    };
+
+
+    public String ToBinary(double decimalvalue, int AccuracyInDP)//I shall make my own for the fun of it.
+    {
+        int maxpoweroftwo = -AccuracyInDP;//Gg. GG. (This var is a temporary store, btw)
+        double decimalvalueleft = decimalvalue;//This is used as a temporary variable for the repeated decrements for this.
+        int NumberOfDecimalPoints = 0;
+        int HighestPowerOfTwo = 0;
+        boolean FirstRun = true;
+        ArrayList<BinaryDigit> ListOfBinaryDigits = new ArrayList<BinaryDigit>();
+        String temporaryBinaryAsString = "";
+
+        //Make sure that startingPowerOfTwo is NOT above zero!!
+        if (AccuracyInDP < 0) AccuracyInDP = 0;
+
+        //startingPowerOfTwo is the minimum power of two you want to check. (Prevents lag if you know you only need
+        //to start checking from 1. This value is usually zero or less... (2^0 = 1)
 		
 		/*
 		 * How to convert:
@@ -339,164 +295,105 @@ public class Quiz extends Activity implements FlurryAdListener {
 		 * Step 3c: If there are recurring decimals, pointlessly repeat them to at least 80dp.
 		 */
 
-		//And now.... the code.
-		
-		//Step 0
-		if(decimalvalue == 0) return "0";
-		
-		//Step 3a
-		while(decimalvalueleft > 0 && NumberOfDecimalPoints < 80)
-		{
-			//Step 1
-			for(int poweroftwo = -AccuracyInDP; ; poweroftwo++)
-			{
-				if( (Math.pow(2, poweroftwo)) > decimalvalueleft)
-				{
-					maxpoweroftwo = poweroftwo - 1;
-					break;
-				}
-                else if ((Math.pow(2, poweroftwo)) == decimalvalueleft)
-                {
+        //And now.... the code.
+
+        //Step 0
+        if (decimalvalue == 0) return "0";
+
+        //Step 3a
+        while (decimalvalueleft > 0 && NumberOfDecimalPoints < 80) {
+            //Step 1
+            for (int poweroftwo = -AccuracyInDP; ; poweroftwo++) {
+                if ((Math.pow(2, poweroftwo)) > decimalvalueleft) {
+                    maxpoweroftwo = poweroftwo - 1;
+                    break;
+                } else if ((Math.pow(2, poweroftwo)) == decimalvalueleft) {
                     maxpoweroftwo = poweroftwo;
                     break;
                 }
-			}
-			//Step 2
-			decimalvalueleft -= Math.pow(2, maxpoweroftwo);
-			
-			//Add the digit
-			ListOfBinaryDigits.add(new BinaryDigit(maxpoweroftwo, 1));
-			if(FirstRun)
-				HighestPowerOfTwo = maxpoweroftwo;
-			FirstRun = false;
-			
-			if(NumberOfDecimalPoints + maxpoweroftwo < 0)
-				NumberOfDecimalPoints = - maxpoweroftwo;
-		}
-		
-		//Make sure maxpoweroftwo is not more than 0 to prevent missing digits before decimal point
-		if (maxpoweroftwo > 0) maxpoweroftwo = 0;
-		
-		//Make sure HighestPowerOfTwo is not less than 0 to prevent missing digits after decimal point which are 0s
-		if (HighestPowerOfTwo < 0) HighestPowerOfTwo = 0;
-		
-		//Create a temporary int array for binary digits in order
-		int [] binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 1];
-		if(decimalvalue % 1 != 0)
-		{   //Give space for the fullstop.
-			binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 2];
-		}
-		
-		//Make a flag for before and after decimal point numbers during the  foreach loop
-		boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
-		
-		//Make an int to keep the index of the char which belongs to 2^0 group
-		int indexOfZeroPower;
-		//Run the for loop to fill in the 1s
-		for (BinaryDigit bd : ListOfBinaryDigits)
-		{
-			if(bd.powerOfTwo > 0)//Check if before or after decimal point
-				MantissaMode = false;
-			else if (bd.powerOfTwo == 0)
-				MantissaMode = false;
-			else
-				MantissaMode = true;
-			
-			if(bd.Value == 1)//Which should be always true...
-			{
-				if(!MantissaMode)
-					Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo, 1);
-				else //Cuz the decimal point takes up one index
-					Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo + 1, 1);
-			}
-		}
-		//Init indexOfZeroPower
-		indexOfZeroPower = HighestPowerOfTwo + 1;
-		
-		//Fill in all empty spaces with zero (except the space which is supposed to be a "."
-		for(int count = 0; count < binaryIntArray.length; count ++)
-		{
-			if(binaryIntArray[count] != 1 && count != indexOfZeroPower)
-				binaryIntArray[count] = 0;
-		}
-		
-		//Fill in decimal point and make the string
-		for(int count = 0; count < binaryIntArray.length; count ++)
-		{
-			if(count == indexOfZeroPower)
-				temporaryBinaryAsString += ".";
-			if(binaryIntArray[count] == 1)
-				temporaryBinaryAsString += "1";
-			else if (binaryIntArray[count] == 0)
-				temporaryBinaryAsString += "0";
-		}
-		
-		return temporaryBinaryAsString;
-	}
-	
-	public class BinaryDigit
-	{
-		public int powerOfTwo;//Where is the digit located?
-		public int Value;//One or Zero
-		
-		public BinaryDigit(int powerOfTwo, int BinaryValue)
-		{
-			this.powerOfTwo = powerOfTwo;
-			this.Value = BinaryValue;
-		}
-	}
-	
-	public class Stopwatch
-	{
-		private int ElaspedMillisecs;
-		private Timer timer;
-		
-		private boolean isRunning = false;
-		
-		public Stopwatch()
-		{
-			ElaspedMillisecs = 0;
-			timer.scheduleAtFixedRate(new TimerTask(){
-				@Override
-				public void run()
-				{
-					if(isRunning)
-					{
-						ElaspedMillisecs += 10;
-					}
-				}
-			}, 0, 10);
-		}
-		
-		public void Start()
-		{
-			isRunning = true;
-		}
-		
-		public void Stop()
-		{
-			ElaspedMillisecs = 0;
-			isRunning = false;
-		}
-		
-		public void Restart()
-		{
-			ElaspedMillisecs = 0;
-		}
-		
-		public int getElaspedMillisecs()
-		{
-			return ElaspedMillisecs;
-		}
-		
-		public int StopAndGet()
-		{
-			int tempElasped = ElaspedMillisecs;
-			isRunning = false;
-			ElaspedMillisecs = 0;
-			return tempElasped;
-		}
-	}
+            }
+            //Step 2
+            decimalvalueleft -= Math.pow(2, maxpoweroftwo);
+
+            //Add the digit
+            ListOfBinaryDigits.add(new BinaryDigit(maxpoweroftwo, 1));
+            if (FirstRun)
+                HighestPowerOfTwo = maxpoweroftwo;
+            FirstRun = false;
+
+            if (NumberOfDecimalPoints + maxpoweroftwo < 0)
+                NumberOfDecimalPoints = -maxpoweroftwo;
+        }
+
+        //Make sure maxpoweroftwo is not more than 0 to prevent missing digits before decimal point
+        if (maxpoweroftwo > 0) maxpoweroftwo = 0;
+
+        //Make sure HighestPowerOfTwo is not less than 0 to prevent missing digits after decimal point which are 0s
+        if (HighestPowerOfTwo < 0) HighestPowerOfTwo = 0;
+
+        //Create a temporary int array for binary digits in order
+        int[] binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 1];
+        if (decimalvalue % 1 != 0) {   //Give space for the fullstop.
+            binaryIntArray = new int[HighestPowerOfTwo - maxpoweroftwo + 2];
+        }
+
+        //Make a flag for before and after decimal point numbers during the  foreach loop
+        boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
+
+        //Make an int to keep the index of the char which belongs to 2^0 group
+        int indexOfZeroPower;
+        //Run the for loop to fill in the 1s
+        for (BinaryDigit bd : ListOfBinaryDigits) {
+            if (bd.powerOfTwo > 0)//Check if before or after decimal point
+                MantissaMode = false;
+            else if (bd.powerOfTwo == 0)
+                MantissaMode = false;
+            else
+                MantissaMode = true;
+
+            if (bd.Value == 1)//Which should be always true...
+            {
+                if (!MantissaMode)
+                    Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo, 1);
+                else //Cuz the decimal point takes up one index
+                    Array.set(binaryIntArray, HighestPowerOfTwo - bd.powerOfTwo + 1, 1);
+            }
+        }
+        //Init indexOfZeroPower
+        indexOfZeroPower = HighestPowerOfTwo + 1;
+
+        //Fill in all empty spaces with zero (except the space which is supposed to be a "."
+        for (int count = 0; count < binaryIntArray.length; count++) {
+            if (binaryIntArray[count] != 1 && count != indexOfZeroPower)
+                binaryIntArray[count] = 0;
+        }
+
+        //Fill in decimal point and make the string
+        for (int count = 0; count < binaryIntArray.length; count++) {
+            if (count == indexOfZeroPower)
+                temporaryBinaryAsString += ".";
+            if (binaryIntArray[count] == 1)
+                temporaryBinaryAsString += "1";
+            else if (binaryIntArray[count] == 0)
+                temporaryBinaryAsString += "0";
+        }
+
+        return temporaryBinaryAsString;
+    }
+
+    public class BinaryDigit {
+        public int powerOfTwo;//Where is the digit located?
+        public int Value;//One or Zero
+
+        public BinaryDigit(int powerOfTwo, int BinaryValue) {
+            this.powerOfTwo = powerOfTwo;
+            this.Value = BinaryValue;
+        }
+    }
+
+    public long GetTimeTakenNano() {
+        return System.nanoTime() - prevNanoSeconds;
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

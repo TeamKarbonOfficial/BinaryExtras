@@ -1,27 +1,28 @@
 package com.teamkarbon.android.binaryextras;
 
-import com.flurry.android.FlurryAdType;
-import com.flurry.android.FlurryAgent;
-import com.flurry.android.FlurryAds;
-import com.flurry.android.FlurryAdSize;
-import com.flurry.android.FlurryAdListener;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.FrameLayout;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.*;
-import android.view.View.OnClickListener;
+
+import com.flurry.android.FlurryAdListener;
+import com.flurry.android.FlurryAdSize;
+import com.flurry.android.FlurryAdType;
+import com.flurry.android.FlurryAds;
+import com.flurry.android.FlurryAgent;
 
 public class LevelSelect extends Activity implements FlurryAdListener {
 
@@ -39,6 +40,9 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 
 	int LevelValue = 1;
 	int NoOfQns = 0;
+    String Mode = "";
+
+    long prevNanoSeconds = 1337;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +123,11 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 
 				// Checking RadioButton Selected
 				if (radioBD.isChecked()) {
-					// Do something
+					Mode = "Bin to Dec";
 				} else if (radioDB.isChecked()) {
-					// Do something
+                    Mode = "Dec to Bin";
 				} else {
-					// If this happens, there is some serious error :P
+					// If this happens, there is some serious error :P Lolololol
 				}
 
 			}
@@ -138,7 +142,10 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 				if (LevelValue < 9) {
 					LevelValue++;
 				} else {
-					Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+                    if(System.nanoTime() - prevNanoSeconds > 1 * Math.pow(10,9)) { //This line prevents the queueing up of too many notifs.
+                        Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+                        prevNanoSeconds = System.nanoTime();
+                    }
 				}
 				LevelView.setText(String.valueOf(LevelValue));
 			}
@@ -153,7 +160,10 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 				if (LevelValue > 1) {
 					LevelValue--;
 				} else {
-					Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+                    if(System.nanoTime() - prevNanoSeconds > 1 * Math.pow(10,9)) {
+                        Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+                        prevNanoSeconds = System.nanoTime();
+                    }
 				}
 				LevelView.setText(String.valueOf(LevelValue));
 			}
@@ -190,6 +200,7 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		Intent intent = new Intent(LevelSelect.this, Quiz.class);
 		intent.putExtra("question count", NoOfQns);
 		intent.putExtra("level", LevelValue);
+        intent.putExtra("mode", Mode);
 
 		startActivity(intent);
 	}
