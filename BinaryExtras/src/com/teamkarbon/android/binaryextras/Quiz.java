@@ -217,7 +217,9 @@ public class Quiz extends Activity implements FlurryAdListener {
             {
                 if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
                         || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7))) {
+
                     score += (1000 * level) / ((System.nanoTime() - prevNanoSeconds) / Math.pow(10, 9));
+                    scoreView.setText("Score: " + score);
 
                     instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
                             noOfQns + " questions right. Press the derpy button to go back.");
@@ -228,11 +230,24 @@ public class Quiz extends Activity implements FlurryAdListener {
             } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
                     || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7))) {
                 noOfQnsCorrect++;
-                instructionView.setText("Correct! Click the button to continue to question!" + currentQn);
+                currentQn ++;
+                instructionView.setText("Correct! Click the button to continue to question " + currentQn);
 
                 QuestionMode = true;
 
-                score += (1000 * level) / (GetTimeTakenNano() / Math.pow(10,9));
+                score += (1000 * level) / (GetTimeTakenNano() / Math.pow(10, 9));
+                scoreView.setText("Score: " + score);
+            } else {
+                currentQn ++;
+                String tempCorrAnswer = "";
+                if (IsBinToDecUsed)
+                {
+                    tempCorrAnswer = String.valueOf(givenValue);
+                } else {
+                    tempCorrAnswer = ToBinary(givenValue, 7);
+                }
+                instructionView.setText("Wrong! Correct answer is " + tempCorrAnswer + "Click the button to continue to question " + currentQn);
+                QuestionMode = true;
             }
 
         }
