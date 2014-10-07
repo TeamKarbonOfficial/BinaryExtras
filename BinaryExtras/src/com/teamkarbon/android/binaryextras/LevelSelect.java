@@ -64,6 +64,8 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 
+        Mode = "Bin to Dec";
+
 		//FIXME Got to clean up this code.
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
