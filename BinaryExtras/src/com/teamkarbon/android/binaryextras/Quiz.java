@@ -21,6 +21,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static android.util.Log.i;
+
 public class Quiz extends Activity implements FlurryAdListener {
 
     FrameLayout mBanner;
@@ -29,7 +31,6 @@ public class Quiz extends Activity implements FlurryAdListener {
     public Intent currentIntent;
 
     public double givenValue;//In decimal, of course
-    public String instructions;
 
     public TextView instructionView, scoreView;
     public Button enterButton;
@@ -47,6 +48,7 @@ public class Quiz extends Activity implements FlurryAdListener {
     //int timeTaken; replaced with
     public long prevNanoSeconds;
 
+    public String ModeString;
     public boolean binToDec, decToBin;
     public boolean ConvertFromBinaryToDecimal;//If true, the question given will require one to convert from
     public boolean QuestionMode;              //Binary to decimal.
@@ -69,13 +71,17 @@ public class Quiz extends Activity implements FlurryAdListener {
         currentIntent = getIntent();
         level = currentIntent.getIntExtra("level", 1);
         noOfQns = currentIntent.getIntExtra("question count", 5);
-        if(currentIntent.getStringExtra("mode") == "Bin to Dec")
+
+        ModeString = currentIntent.getStringExtra("mode");
+        i("MODELOG", ModeString);
+
+        if(ModeString.equalsIgnoreCase("bin to dec"))
         {
             ConvertFromBinaryToDecimal = true;
             binToDec = true;
             decToBin = false;
         }
-        else if (currentIntent.getStringExtra("mode") == "Dec to Bin")
+        if (ModeString.equalsIgnoreCase("Dec to Bin"))
         {
             ConvertFromBinaryToDecimal = false;
             decToBin = true;
@@ -83,7 +89,7 @@ public class Quiz extends Activity implements FlurryAdListener {
         }
 
         instructionView.setText("Difficulty Level: " + level + " | Total Questions: " + noOfQns
-                + " | Mode: " + currentIntent.getStringExtra("mode") + ". Press the derpy button to start!");
+                + " | Mode: " + ModeString + ". Press the derpy button to start!");
 
 
         rndGen = new Random();
@@ -119,7 +125,6 @@ public class Quiz extends Activity implements FlurryAdListener {
     }
 
     public void derp_click(View view) {
-        double properAnswer;
         boolean IsBinToDecUsed = ConvertFromBinaryToDecimal;
         if (GameOver) {
             Intent tempintent = new Intent(Quiz.this, MainActivity.class);
@@ -129,9 +134,7 @@ public class Quiz extends Activity implements FlurryAdListener {
         {
             double Min = 0, Max = 0;
             int SmallestPowerOfTwo = 0;
-            boolean WithDecimal;
 
-            double ValueToConvert;
 
             currentQn++;
             switch (level) {
@@ -182,7 +185,6 @@ public class Quiz extends Activity implements FlurryAdListener {
                     break;
             }
             if (decToBin) {
-                IsBinToDecUsed = false;
                 if (SmallestPowerOfTwo == 0)
                     instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary? Key in your answer and " +
                             "tap the derpy button.");
@@ -195,7 +197,6 @@ public class Quiz extends Activity implements FlurryAdListener {
                             "Key in your answer and tap the derpy button.");
                 }
             } else if (binToDec) {
-                IsBinToDecUsed = true;
                 if (SmallestPowerOfTwo == 0)
                     instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
                 else {
@@ -215,8 +216,8 @@ public class Quiz extends Activity implements FlurryAdListener {
 
             if (currentQn == noOfQns)//Last question.. display stats after this
             {
-                if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
-                        || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7))) {
+                if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(String.valueOf(givenValue)))
+                        || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(ToBinary(givenValue, 7)))) {
 
                     score += (1000 * level) / ((System.nanoTime() - prevNanoSeconds) / Math.pow(10, 9));
                     scoreView.setText("Score: " + score);
@@ -227,8 +228,8 @@ public class Quiz extends Activity implements FlurryAdListener {
                     QuestionMode = false;
 
                 }
-            } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == String.valueOf(givenValue))
-                    || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "") == ToBinary(givenValue, 7))) {
+            } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(String.valueOf(givenValue)))
+                    || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(ToBinary(givenValue, 7)))) {
                 noOfQnsCorrect++;
                 currentQn ++;
                 instructionView.setText("Correct! Click the button to continue to question " + currentQn);
@@ -239,7 +240,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                 scoreView.setText("Score: " + score);
             } else {
                 currentQn ++;
-                String tempCorrAnswer = "";
+                String tempCorrAnswer;
                 if (IsBinToDecUsed)
                 {
                     tempCorrAnswer = String.valueOf(givenValue);
@@ -353,9 +354,7 @@ public class Quiz extends Activity implements FlurryAdListener {
         int indexOfZeroPower;
         //Run the for loop to fill in the 1s
         for (BinaryDigit bd : ListOfBinaryDigits) {
-            if (bd.powerOfTwo > 0)//Check if before or after decimal point
-                MantissaMode = false;
-            else if (bd.powerOfTwo == 0)
+            if (bd.powerOfTwo > 0 || bd.powerOfTwo == 0)//Check if before or after decimal point
                 MantissaMode = false;
             else
                 MantissaMode = true;

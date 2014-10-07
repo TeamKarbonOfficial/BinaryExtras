@@ -203,8 +203,8 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		intent.putExtra("question count", NoOfQns);
 		intent.putExtra("level", LevelValue);
         intent.putExtra("mode", Mode);
-
-		startActivity(intent);
+        android.util.Log.i("MODELOG", "MODE: " + Mode);
+        startActivity(intent);
 	}
 
 	@Override
