@@ -191,7 +191,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                 if (SmallestPowerOfTwo == 0) {
                     givenValue = rndGen.nextInt((int) Max);
                     CorrectAnswer = String.valueOf(ToBinary(givenValue, 90));
-                    instructionView.setText("What is " + givenValue + " in binary? Key in your answer and " +
+                    instructionView.setText(currentQn + ") What is " + givenValue + " in binary? Key in your answer and " +
                             "tap the derpy button.");
                 } else {
                     givenValue = 0;
@@ -199,21 +199,21 @@ public class Quiz extends Activity implements FlurryAdListener {
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
                     CorrectAnswer = String.valueOf(givenValue);
-                    instructionView.setText("What is " + CorrectAnswer + " in binary? " +
+                    instructionView.setText(currentQn + ") What is " + CorrectAnswer + " in binary? " +
                             "Key in your answer and tap the derpy button.");
                 }
             } else if (binToDec) {
                 if (SmallestPowerOfTwo == 0)
                     CorrectAnswer = String.valueOf(rndGen.nextInt((int) Max));
                 givenValue = Double.valueOf(CorrectAnswer);
-                instructionView.setText("What is " + ToBinary(givenValue, 90) + " in decimal?");
+                instructionView.setText(currentQn + ") What is " + ToBinary(givenValue, 90) + " in decimal?");
             } else {
                 givenValue = 0;
 
                 //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                 givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
                 CorrectAnswer = ToBinary(givenValue, 90);
-                instructionView.setText("What is " + CorrectAnswer + " in decimal? " +
+                instructionView.setText(currentQn + ") What is " + CorrectAnswer + " in decimal? " +
                         "Key in your answer and tap the derpy button.");
             }
 
@@ -239,8 +239,7 @@ public class Quiz extends Activity implements FlurryAdListener {
             } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))
                     || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))) {
                 noOfQnsCorrect++;
-                currentQn++;
-                instructionView.setText("Correct! Click the button to continue to question " + currentQn);
+                instructionView.setText("Correct! Click the button to continue to question " + (currentQn + 1));
 
                 i("INPUTLOG", input.getText().toString().replaceAll("\\s", ""));
 
@@ -249,8 +248,8 @@ public class Quiz extends Activity implements FlurryAdListener {
                 score += (1000 * level) / (GetTimeTakenNano() / Math.pow(10, 9));
                 scoreView.setText("Score: " + score);
             } else {
-                currentQn++;
-                instructionView.setText("Wrong! Correct answer is " + CorrectAnswer + ". Click the button to continue to question " + currentQn);
+                instructionView.setText("Wrong! Correct answer is " + CorrectAnswer + ". Click the button to continue " +
+                        "to question " + (currentQn + 1));
                 QuestionMode = true;
             }
 
