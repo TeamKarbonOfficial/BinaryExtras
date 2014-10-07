@@ -189,7 +189,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                     instructionView.setText("What is " + rndGen.nextInt((int) Max) + " in binary? Key in your answer and " +
                             "tap the derpy button.");
                 else {
-                    double givenValue = 0;
+                    givenValue = 0;
 
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
@@ -200,7 +200,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                 if (SmallestPowerOfTwo == 0)
                     instructionView.setText("What is " + ToBinary(rndGen.nextInt((int) Max), 90) + " in decimal?");
                 else {
-                    double givenValue = 0;
+                    givenValue = 0;
 
                     //NOTE MIN IS NOT NEGATIVE. IT's JUST 2^SMALLESTPOWEROFTWO
                     givenValue = rndGen.nextInt((int) (Max / Min)) * Math.pow(2, SmallestPowerOfTwo);
