@@ -83,7 +83,7 @@ public class Quiz extends Activity implements FlurryAdListener {
         }
 
         instructionView.setText("Difficulty Level: " + level + " | Total Questions: " + noOfQns
-                + " | Mode: " + currentIntent.getStringExtra("mode") + "Press the derpy button to start!");
+                + " | Mode: " + currentIntent.getStringExtra("mode") + ". Press the derpy button to start!");
 
 
         rndGen = new Random();
@@ -246,7 +246,7 @@ public class Quiz extends Activity implements FlurryAdListener {
                 } else {
                     tempCorrAnswer = ToBinary(givenValue, 7);
                 }
-                instructionView.setText("Wrong! Correct answer is " + tempCorrAnswer + "Click the button to continue to question " + currentQn);
+                instructionView.setText("Wrong! Correct answer is " + tempCorrAnswer + ". Click the button to continue to question " + currentQn);
                 QuestionMode = true;
             }
 
