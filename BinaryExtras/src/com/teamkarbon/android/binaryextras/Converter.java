@@ -1,14 +1,5 @@
 package com.teamkarbon.android.binaryextras;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import com.flurry.android.FlurryAdType;
-import com.flurry.android.FlurryAds;
-import com.flurry.android.FlurryAdSize;
-import com.flurry.android.FlurryAgent;
-import com.flurry.android.FlurryAdListener;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,13 +7,21 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAdListener;
+import com.flurry.android.FlurryAdSize;
+import com.flurry.android.FlurryAdType;
+import com.flurry.android.FlurryAds;
+import com.flurry.android.FlurryAgent;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Converter extends Activity implements FlurryAdListener {
-	
-	FrameLayout mBanner;
-    private String adSpace="MediatedBannerBottom";
 
 	public EditText inputbox;
 	public TextView outputbox;
+	FrameLayout mBanner;
+    private String adSpace="MediatedBannerBottom";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -250,6 +249,54 @@ public class Converter extends Activity implements FlurryAdListener {
 		return temporaryBinaryAsString;
 	}
 
+	@Override
+	public void onAdClicked(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onAdClosed(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onAdOpened(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onApplicationExit(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onRenderFailed(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onRendered(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onVideoCompleted(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void spaceDidFailToReceiveAd(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public class BinaryDigit {
 		public int powerOfTwo;// Where is the digit located?
 		public int Value;// One or Zero
@@ -258,53 +305,5 @@ public class Converter extends Activity implements FlurryAdListener {
 			this.powerOfTwo = powerOfTwo;
 			this.Value = BinaryValue;
 		}
-	}
-
-	@Override
-	public void onAdClicked(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAdClosed(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAdOpened(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onApplicationExit(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRenderFailed(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRendered(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVideoCompleted(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void spaceDidFailToReceiveAd(String arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }
