@@ -60,8 +60,8 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 		radioDB = (RadioButton) findViewById(R.id.radioDB);
 		spinner = (Spinner) findViewById(R.id.spinner1);
 
-		adapter = ArrayAdapter.createFromResource(this, R.array.noOfQnsSpinnerList, R.layout.CustomSpinner);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.noOfQnsSpinnerList, R.layout.custom_spinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 
         Mode = "Bin to Dec";
