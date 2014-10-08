@@ -3,7 +3,7 @@ Download External Jar File for Flurry: http://teamkarbon.com/cloud/public.php?se
 BinaryExtras
 ============
 
-As of 7/10/2014
+As of 8/10/2014; Binary Extras v1.0.0.x
 
 A random simple binary app for Android devices
 
@@ -61,4 +61,4 @@ Current Area under Development (as of 7/10/2014): **Binary Quiz**
 
 >>> **Question Mode = false DONE**: Instructions(TextView) will show if the user had gotten the question to the previous answer right or wrong.
 
->**TODO**: Make sure that once noOfQns (Total quantity of questions) == currentQn (Current qn number), the following Result mode (Question Mode = false) will cause "Press the derpy button to see your results!" to be added behind the original result string in Instructions.setText(string). BUGFIX IN PROGRESS.
+>**DONE**: Make sure that once noOfQns (Total quantity of questions) == currentQn (Current qn number), the following Result mode (Question Mode = false) will cause "Press the derpy button to see your results!" to be added behind the original result string in Instructions.setText(string). *BUG FIXED*.
