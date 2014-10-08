@@ -230,11 +230,20 @@ public class Quiz extends Activity implements FlurryAdListener {
                     score += (1000 * level) / ((System.nanoTime() - prevNanoSeconds) / Math.pow(10, 9));
                     scoreView.setText("Score: " + score);
 
+                    noOfQnsCorrect++;
+
                     instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
                             noOfQns + " questions right. Press the derpy button to go back.");
                     GameOver = true;
                     QuestionMode = false;
 
+                }
+                else
+                {
+                    instructionView.setText("Correct! " + noOfQnsCorrect + "/" +
+                            noOfQns + " questions right. Press the derpy button to go back.");
+                    GameOver = true;
+                    QuestionMode = false;
                 }
             } else if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))
                     || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))) {
