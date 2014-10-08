@@ -24,24 +24,24 @@ A random simple binary app for Android devices
 > Might add more complex calculations (eg. sin, cos, tan)
 
 
-**Binary Quiz** (Functions completed, Bugs to be fixed)
+**Binary Quiz** (Done)
 
 -Random Generate Number (Decimal to Binary) & (Binary to Decimal) (Done)
 
 >Add a function to edit range of value edited (Done)
 
->Add other Quizes stated at the Binary Converter
+>Add other Quizes using bases other than 2 (bin) and 10 (dec) (Version 2, maybe?)
 
 
 **Level Selection**
 ----------------
->Add functionality to Up/Down buttons selecting level (1 to 9)
+>Add functionality to Up/Down buttons selecting level (1 to 9) (Done)
 
->Add functionality to Spinner selecting quantity of questions (5,10,20,30,40,50,100,500 and 1000)
+>Add functionality to Spinner selecting quantity of questions (5,10,20,30,40,50,100,500 and 1000) (Done)
 
->Create RadioBoxes so that users may choose either Dec->Bin conversions, Bin->Dec conversions, or both types
+>Create RadioBoxes so that users may choose either Dec->Bin conversions, Bin->Dec conversions (Done)
 
->Ensure all data is passed through intent extras, and test for any errors in this area.
+>Ensure all data is passed through intent extras, and test for any errors in this area. (Done)
 
 
 Current Area under Development (as of 8/10/2014): **Binary Quiz**
