@@ -193,6 +193,8 @@ public class Quiz extends Activity implements FlurryAdListener {
                     CorrectAnswer = String.valueOf(ToBinary(givenValue, 90));
                     instructionView.setText(currentQn + ") What is " + givenValue + " in binary? Key in your answer and " +
                             "tap the derpy button.");
+
+                    prevNanoSeconds = System.nanoTime();
                 } else {
                     givenValue = 0;
 
@@ -201,12 +203,16 @@ public class Quiz extends Activity implements FlurryAdListener {
                     CorrectAnswer = String.valueOf(givenValue);
                     instructionView.setText(currentQn + ") What is " + CorrectAnswer + " in binary? " +
                             "Key in your answer and tap the derpy button.");
+
+                    prevNanoSeconds = System.nanoTime();
                 }
             } else if (binToDec) {
                 if (SmallestPowerOfTwo == 0)
                     CorrectAnswer = String.valueOf(rndGen.nextInt((int) Max));
                 givenValue = Double.valueOf(CorrectAnswer);
                 instructionView.setText(currentQn + ") What is " + ToBinary(givenValue, 90) + " in decimal?");
+
+                prevNanoSeconds = System.nanoTime();
             } else {
                 givenValue = 0;
 
@@ -215,6 +221,8 @@ public class Quiz extends Activity implements FlurryAdListener {
                 CorrectAnswer = ToBinary(givenValue, 90);
                 instructionView.setText(currentQn + ") What is " + CorrectAnswer + " in decimal? " +
                         "Key in your answer and tap the derpy button.");
+
+                prevNanoSeconds = System.nanoTime();
             }
 
             QuestionMode = false;
@@ -227,7 +235,9 @@ public class Quiz extends Activity implements FlurryAdListener {
                 if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))
                         || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))) {
 
-                    score += (1000 * level) / ((System.nanoTime() - prevNanoSeconds) / Math.pow(10, 9));
+                    i("nanoTimeLog", "Current: " + String.valueOf(System.nanoTime()) + ", Previous: " + String.valueOf(prevNanoSeconds));
+
+                    score += (1000 * level) / ((System.nanoTime() * 1.0 - prevNanoSeconds * 1.0) / Math.pow(10, 9));
                     scoreView.setText("Score: " + score);
 
                     noOfQnsCorrect++;

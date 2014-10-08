@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#447744"
-        android:textColor="#44cc44" />
+        android:textColor="#DDFFDD" />
     
     <RadioGroup
         android:id="@+id/radioGroup1"
