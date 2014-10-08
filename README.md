@@ -44,21 +44,7 @@ A random simple binary app for Android devices
 >Ensure all data is passed through intent extras, and test for any errors in this area.
 
 
-Current Area under Development (as of 7/10/2014): **Binary Quiz**
+Current Area under Development (as of 8/10/2014): **Binary Quiz**
 ============
--Quiz  (Quiz.java, activity_quiz.xml)
------------
->**DONE**: Add required controls/views. (1 TextView, 1 EditText and 1 Derpy Button)
-
->**DONE**: Receive all intent extras data passed
-
->**DONE**: Work out the structure of how the quiz takes place.
->>Quiz has 2 states. Result mode and Question Mode, which are toggled by the press of the Derpy Button
-
->>> **Question Mode = true DONE**: Instructions(TextView) will be loaded with questions with the given ranges (in decimal values) and the user will type their answer in Input(EditText):
-
->>>> **Level 1-9 settings DONE**
-
->>> **Question Mode = false DONE**: Instructions(TextView) will show if the user had gotten the question to the previous answer right or wrong.
-
->**DONE**: Make sure that once noOfQns (Total quantity of questions) == currentQn (Current qn number), the following Result mode (Question Mode = false) will cause "Press the derpy button to see your results!" to be added behind the original result string in Instructions.setText(string). *BUG FIXED*.
+*Work on V2*
+Ideas, anyone?
