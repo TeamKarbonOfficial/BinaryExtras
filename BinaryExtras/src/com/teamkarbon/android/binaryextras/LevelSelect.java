@@ -66,7 +66,6 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 
         Mode = "Bin to Dec";
 
-		//FIXME Got to clean up this code. (Nah)
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -128,9 +127,6 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 					Mode = "Bin to Dec";
 				} else if (radioDB.isChecked()) {
                     Mode = "Dec to Bin";
-				} else {
-					// If this happens, there is some serious error :P Lolololol
-                    //TODO: Delete this, maybe...?
 				}
 
 			}
@@ -200,12 +196,16 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 
 	// On Start! button click
 	public void start_click(View view) {
-		Intent intent = new Intent(LevelSelect.this, Quiz.class);
-		intent.putExtra("question count", NoOfQns);
-		intent.putExtra("level", LevelValue);
-        intent.putExtra("mode", Mode);
-        android.util.Log.i("MODELOG", "MODE: " + Mode);
-        startActivity(intent);
+		if (NoOfQns != 0) {
+			Intent intent = new Intent(LevelSelect.this, Quiz.class);
+			intent.putExtra("question count", NoOfQns);
+			intent.putExtra("level", LevelValue);
+			intent.putExtra("mode", Mode);
+			android.util.Log.i("MODELOG", "MODE: " + Mode);
+			startActivity(intent);
+		} else {
+			Toast.makeText(getApplicationContext(), "[ERROR] Must select number of questions first!", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
