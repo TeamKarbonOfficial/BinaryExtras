@@ -224,8 +224,8 @@ public class Quiz extends Activity implements FlurryAdListener {
 
             if (currentQn == noOfQns)//Last question.. display stats after this
             {
-                if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(String.valueOf(givenValue)))
-                        || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(ToBinary(givenValue, 7)))) {
+                if ((IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))
+                        || (!IsBinToDecUsed && input.getText().toString().replaceAll("\\s", "").equals(CorrectAnswer))) {
 
                     score += (1000 * level) / ((System.nanoTime() - prevNanoSeconds) / Math.pow(10, 9));
                     scoreView.setText("Score: " + score);
@@ -336,7 +336,7 @@ public class Quiz extends Activity implements FlurryAdListener {
         }
 
         //Make a flag for before and after decimal point numbers during the  foreach loop
-        boolean MantissaMode = false;//Mantissa is the part after the decimal point, with negative powers
+        boolean MantissaMode;//Mantissa is the part after the decimal point, with negative powers
 
         //Make an int to keep the index of the char which belongs to 2^0 group
         int indexOfZeroPower;
