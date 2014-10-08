@@ -19,7 +19,7 @@
         android:background="#335577"
         android:ems="10"
         android:hint="@string/InputTest"
-        android:inputType="phone"
+        android:inputType="numberDecimal"
         android:textColor="#44dc44"
         android:textColorHint="#44dc44"
         android:textSize="30sp" />
