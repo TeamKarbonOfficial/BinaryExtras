@@ -43,6 +43,7 @@ public class LevelSelect extends Activity implements FlurryAdListener {
     String Mode = "";
 
     long prevNanoSeconds = 1337;
+	long prevNanoSecondsSpinner = 9001;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -158,11 +159,9 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 			public void onClick(View arg0) {
 				if (LevelValue > 1) {
 					LevelValue--;
-				} else {
-                    if(System.nanoTime() - prevNanoSeconds > 1 * Math.pow(10,9)) {
-                        Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
-                        prevNanoSeconds = System.nanoTime();
-                    }
+				} else if (System.nanoTime() - prevNanoSeconds > (1 * Math.pow(10, 9))) {
+					Toast.makeText(getApplicationContext(), "[ERROR] Values Between 1 - 9 Only!", Toast.LENGTH_SHORT).show();
+					prevNanoSeconds = System.nanoTime();
 				}
 				LevelView.setText(String.valueOf(LevelValue));
 			}
@@ -203,8 +202,9 @@ public class LevelSelect extends Activity implements FlurryAdListener {
 			intent.putExtra("mode", Mode);
 			android.util.Log.i("MODELOG", "MODE: " + Mode);
 			startActivity(intent);
-		} else {
+		} else if (System.nanoTime() - prevNanoSecondsSpinner > (1.5 * Math.pow(10, 9))) {
 			Toast.makeText(getApplicationContext(), "[ERROR] Must select number of questions first!", Toast.LENGTH_SHORT).show();
+			prevNanoSecondsSpinner = System.nanoTime();
 		}
 	}
 
