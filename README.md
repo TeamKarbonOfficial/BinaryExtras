@@ -1,13 +1,13 @@
 Download External Jar File for Flurry: http://teamkarbon.com/cloud/public.php?service=files&t=e132ba44f9c0cd4f81b6dc65f009bdcb
 
-BinaryExtras
+*BinaryExtras Official release v1*
 ============
 
-As of 8/10/2014; Binary Extras v1.0.0.x
+As of 8/10/2014; Binary Extras v1.0.0.91
 
 A random simple binary app for Android devices
 
-Project Overview
+*Project Overview*
 ============
 **Binary Coverter** (Completed Decimal <-> Binary conversions only)
 
