@@ -1,6 +1,6 @@
 Download External Jar File for Flurry: http://teamkarbon.com/cloud/public.php?service=files&t=e132ba44f9c0cd4f81b6dc65f009bdcb
-Download compulsory module (gridlayout_v7.zip):
-http://teamkarbon.com/cloud/public.php?service=files&t=a03eed6d83be1dd0d495b843abe1d164
+
+Download compulsory module (gridlayout_v7.zip): http://teamkarbon.com/cloud/public.php?service=files&t=a03eed6d83be1dd0d495b843abe1d164
 
 *BinaryExtras Official release v1*
 ============
